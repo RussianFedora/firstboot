@@ -1,12 +1,13 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.0.0
-Release: 4
+Version: 1.0.1
+Release: 2
 URL: http://www.redhat.com/
 License: GPL
 ExclusiveOS: Linux
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildArch: noarch
 Source0: %{name}-%{version}.tar.bz2
 Obsoletes:anaconda-reconfig
 Prereq: chkconfig, /etc/init.d
@@ -18,11 +19,13 @@ Requires: metacity
 Requires: rhpl
 Requires: redhat-config-date
 Requires: redhat-config-language
+%ifnarch s390 s390x
 Requires: redhat-config-mouse
 Requires: redhat-config-keyboard
+Requires: redhat-config-soundcard
+%endif
 Requires: redhat-config-securitylevel
 Requires: redhat-config-rootpassword
-Requires: redhat-config-soundcard
 Requires: redhat-config-packages
 Requires: up2date
 
@@ -65,6 +68,18 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed Aug 28 2002 Brent Fox <bfox@redhat.com> 1.0.1-2
+- Fix typo
+
+* Wed Aug 28 2002 Brent Fox <bfox@redhat.com> 1.0.1-1
+- Convert to noarch
+- Add a root window mode for firstbootWindow
+- Use a gtkInvisible dialog to block on up2date and the package screen
+
+* Wed Aug 28 2002 Karsten Hopp <karsten@redhat.de> 1.0.0-5
+- don't require config-mouse, config-keyboard, config-soundcard
+  on S390
+
 * Tue Aug 27 2002 Brent Fox <bfox@redhat.com> 1.0.0-4
 - fix hang on unreponsive ntp servers
  
