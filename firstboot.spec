@@ -1,6 +1,6 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.10
+Version: 1.3.14
 Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
@@ -76,6 +76,21 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed May 12 2004 Elliot Lee <sopwith@redhat.com> 1.3.14-1
+- Fix initscript (#121489)
+
+* Mon May  3 2004 Brent Fox <bfox@redhat.com> 1.3.13-1
+- fix Norwegian translation bug (bug #122206)
+
+* Thu Apr 22 2004 Brent Fox <bfox@redhat.com> 1.3.12-1
+- look for xorg.conf, not XF86Config (bug #121489)
+
+* Thu Apr 15 2004 Brent Fox <bfox@redhat.com> 1.3.11-1
+- fix bug #120669
+
+* Wed Apr  7 2004 Brent Fox <bfox@redhat.com> 1.3.10-2
+- allow for correct text mode button translations (bug #120087)
+
 * Wed Mar 17 2004 Jeremy Katz <katzj@redhat.com> 1.3.10-1
 - fix password to be encrypted properly
 
