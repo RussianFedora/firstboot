@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.0.1
-Release: 10
+Version: 1.0.5
+Release: 11
 URL: http://www.redhat.com/
 License: GPL
 ExclusiveOS: Linux
@@ -9,7 +9,7 @@ Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildArch: noarch
 Source0: %{name}-%{version}.tar.bz2
-Obsoletes:anaconda-reconfig
+Obsoletes: anaconda-reconfig
 Prereq: chkconfig, /etc/init.d
 BuildPreReq: python-tools
 Requires: pygtk2
@@ -25,8 +25,12 @@ Requires: redhat-config-soundcard
 Requires: redhat-config-securitylevel
 Requires: redhat-config-rootpassword
 Requires: redhat-config-packages
+Requires: libuser
 Requires: up2date
 Requires: redhat-logos
+Requires: redhat-artwork
+Requires: xsri
+ExcludeArch: s390 s390x
 
 %description
 The firstboot utility runs after installation.  It 
@@ -67,6 +71,96 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Tue Feb 25 2003 Jeremy Katz <katzj@redhat.com> 1.0.5-11
+- background image name changed (#85160)
+- don't traceback if background doesn't exist
+
+* Mon Feb 24 2003 Nalin Dahyabhai <nalin@redhat.com> 1.0.5-10
+- compare text to string.whitespace, not whitespace (#85038)
+
+* Mon Feb 24 2003 Brent Fox <bfox@redhat.com> 1.0.5-9
+- apply initscript patch from mikem@redhat.com.  Avoids calling telinit (bug #84848)
+
+* Fri Feb 21 2003 Brent Fox <bfox@redhat.com> 1.0.5-8
+- call RGB_DITHER_MAX (bug #84850)
+
+* Thu Feb 20 2003 Brent Fox <bfox@redhat.com> 1.0.5-7
+- fix traceback in create_users.py (bug #84722)
+
+* Tue Feb 18 2003 Brent Fox <bfox@redhat.com> 1.0.5-6
+- add mnemonics to up2date.py (bug #84487)
+
+* Wed Feb 12 2003 Brent Fox <bfox@redhat.com> 1.0.5-5
+- only launch r-c-xfree86 if in runlevel 3 and XF86Config does not exist (bug #84135)
+
+* Tue Feb 11 2003 Brent Fox <bfox@redhat.com> 1.0.5-4
+- fix bug #84068
+
+* Wed Feb  5 2003 Brent Fox <bfox@redhat.com> 1.0.5-3
+- check for empty soundcard list, not list = None
+
+* Mon Feb  3 2003 Brent Fox <bfox@redhat.com> 1.0.5-2
+- notting fixed the initscript to pull in the locale
+
+* Fri Jan 31 2003 Brent Fox <bfox@redhat.com> 1.0.5-1
+- new strings in up2date module
+
+* Wed Jan 29 2003 Brent Fox <bfox@redhat.com> 1.0.4-8
+- don't run firstboot in runlevel 3 at all (bug #78239)
+- fix return tuple if no soundcards are found in soundcard_gui.py
+- use backslash instead of forward slash in the init script
+
+* Wed Jan 29 2003 Brent Fox <bfox@redhat.com> 1.0.4-6
+- give the X server 1 second to close before we exit firstboot (bug #81313)
+
+* Tue Jan 28 2003 Brent Fox <bfox@redhat.com> 1.0.4-5
+- don't use Yes/No dialogs in create_user.py (bug #82680)
+- only use root window mode in non-debug mode
+- make module titles consistent with each other
+
+* Fri Jan 24 2003 Brent Fox <bfox@redhat.com> 1.0.4-4
+- better validity checking for user name and password
+
+* Tue Jan 21 2003 Brent Fox <bfox@redhat.com> 1.0.4-3
+- remove print statement that was causing a traceback
+
+* Mon Jan 20 2003 Brent Fox <bfox@redhat.com> 1.0.4-2
+- use the gdm background as the background image
+
+* Fri Jan 17 2003 Brent Fox <bfox@redhat.com> 1.0.4-1
+- make hboxes transparent and use a new background
+
+* Mon Jan 13 2003 Brent Fox <bfox@redhat.com> 1.0.3-6
+- make it so that we can paint the root window
+
+* Thu Jan  9 2003 Brent Fox <bfox@redhat.com> 1.0.3-5
+- sleep .5 sec on exit (bug #81313)
+
+* Mon Dec 23 2002 Brent Fox <bfox@redhat.com> 1.0.3-4
+- enforce 6 char user passwords
+
+* Sun Dec 22 2002 Brent Fox <bfox@redhat.com> 1.0.3-3
+- require an NTP server if NTP selected in date.py
+
+* Tue Dec 17 2002 Brent Fox <bfox@redhat.com> 1.0.3-2
+- don't run x tool if /etc/sysconfig/firstboot exists
+
+* Mon Dec 02 2002 Brent Fox <bfox@redhat.com> 1.0.3-1
+- Create a message for machines that boot in runlevel 3
+
+* Tue Nov 26 2002 Brent Fox <bfox@redhat.com> 1.0.2-4
+- Mark initscript strings as internationalizable (bug 77826)
+
+* Fri Nov 22 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- exclude mainframe
+
+* Wed Nov 13 2002 Brent Fox <bfox@redhat.com> 1.0.2-3
+- fix soundcard and mouse problem
+
+* Tue Nov 12 2002 Brent Fox <bfox@redhat.com> 1.0.2-2
+- explicitly kill X server pid
+- Latest translations
+
 * Thu Sep 05 2002 Brent Fox <bfox@redhat.com> 1.0.1-10
 - moved some pixmaps to redhat-logos package
 - added a requires for redhat-logos package
