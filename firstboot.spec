@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.3
-Release: 3
+Version: 1.3.10
+Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -20,7 +20,6 @@ Requires: rhpl
 Requires: system-config-date
 Requires: system-config-display
 Requires: system-config-language
-Requires: system-config-mouse
 Requires: system-config-keyboard
 Requires: system-config-soundcard
 Requires: system-config-securitylevel
@@ -55,7 +54,10 @@ make INSTROOT=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT
 
 %post
-chkconfig --add firstboot
+if ! [ -f /etc/sysconfig/firstboot ]
+then
+  chkconfig --add firstboot
+fi
 		
 %preun
 if [ $1 = 0 ]; then
@@ -74,6 +76,35 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed Mar 17 2004 Jeremy Katz <katzj@redhat.com> 1.3.10-1
+- fix password to be encrypted properly
+
+* Wed Mar 17 2004 Jeremy Katz <katzj@redhat.com> 1.3.9-1
+- more workarounds for selinux (don't use libuser at all for create_user.py 
+  for right now)
+
+* Wed Mar 17 2004 Brent Fox <bfox@redhat.com> 1.3.8-1
+- workaround selinux - patch from jeremy
+
+* Tue Mar  9 2004 Brent Fox <bfox@redhat.com> 1.3.7-2
+- fix typo (bug #117867)
+
+* Mon Mar  8 2004 Brent Fox <bfox@redhat.com> 1.3.7-1
+- drop the verbose print statements
+
+* Thu Mar  4 2004 Brent Fox <bfox@redhat.com> 1.3.6-1
+- only call chkconfig -add if /etc/sysconfig/firstboot does not exist
+
+* Mon Mar  1 2004 Brent Fox <bfox@redhat.com> 1.3.5-2
+- remove Requires on system-config-mouse
+
+* Tue Feb 17 2004 Brent Fox <bfox@redhat.com> 1.3.5-1
+- call self.win.present() to allow initial keyboard input
+
+* Mon Feb 16 2004 Brent Fox <bfox@redhat.com> 1.3.4-1
+- UTF-8ify fr.po
+- make sure the root window stays on the bottom (bug #105631)
+
 * Tue Jan 27 2004 Tim Powers <timp@ragnarok.devel.redhat.com> 1.3.3-3
 - fedora-logos -> redhat-logos since redhat-logos is a virtual
   provides (used so that we can switch out redhat-logos with
