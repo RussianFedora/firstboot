@@ -1,8 +1,8 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.2.4
-Release: 1
-URL: http://www.redhat.com/
+Version: 1.3.3
+Release: 3
+URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
 Group: System Environment/Base
@@ -17,15 +17,16 @@ Requires: python
 Requires: usermode >= 1.36
 Requires: metacity
 Requires: rhpl
-Requires: redhat-config-date
-Requires: redhat-config-language
-Requires: redhat-config-mouse
-Requires: redhat-config-keyboard
-Requires: redhat-config-soundcard
-Requires: redhat-config-securitylevel
-Requires: redhat-config-rootpassword
-Requires: redhat-config-packages
-Requires: redhat-config-network
+Requires: system-config-date
+Requires: system-config-display
+Requires: system-config-language
+Requires: system-config-mouse
+Requires: system-config-keyboard
+Requires: system-config-soundcard
+Requires: system-config-securitylevel
+Requires: system-config-rootpassword
+Requires: system-config-packages
+Requires: system-config-network
 Requires: authconfig-gtk
 Requires: libuser
 Requires: up2date
@@ -73,6 +74,34 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Tue Jan 27 2004 Tim Powers <timp@ragnarok.devel.redhat.com> 1.3.3-3
+- fedora-logos -> redhat-logos since redhat-logos is a virtual
+  provides (used so that we can switch out redhat-logos with
+  fedora-logos easily). Will change to system-logos once the changes
+  have been made.
+
+* Fri Jan 23 2004 Bill Nottingham <notting@redhat.com> 1.3.3-2
+- some more s/redhat/system/ on requires
+
+* Mon Dec  1 2003 Brent Fox <bfox@redhat.com> 1.3.2-2
+- redhat-logos hasn't been renamed to system-logos yet
+
+* Mon Nov 24 2003 Brent Fox <bfox@redhat.com> 1.3.2-1
+- make changes for Python2.3
+
+* Sun Nov 23 2003 Brent Fox <bfox@redhat.com> 1.3.2-1
+- update Requires for system-config name change
+- make changes for Python2.3
+
+* Mon Oct 27 2003 Brent Fox <bfox@redhat.com> 1.3.1-1
+- fix initscript for text mode
+
+* Fri Oct 24 2003 Brent Fox <bfox@redhat.com> 1.3.1-1
+- bump version
+- use CVS head now for Fedora Core 2
+- made firstboot-cambridge branch for Fedora Core 1
+- first stab at text mode
+
 * Wed Oct 15 2003 Brent Fox <bfox@redhat.com> 1.2.4-1
 - pull lightrays.png from a different location
 
