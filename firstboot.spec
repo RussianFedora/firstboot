@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.28
-Release: 2
+Version: 1.3.29
+Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -33,7 +33,6 @@ Requires: redhat-logos
 Requires: redhat-artwork
 Requires: xsri
 ExcludeArch: s390 s390x
-Patch: firstboot-1.3.27-rhgb.patch
 
 %description
 The firstboot utility runs after installation.  It 
@@ -42,7 +41,6 @@ configuration of the machine.
 
 %prep
 %setup -q
-%patch -p1
 
 %build
 make
