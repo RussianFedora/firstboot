@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.0.5
-Release: 11
+Version: 1.2.4
+Release: 1
 URL: http://www.redhat.com/
 License: GPL
 ExclusiveOS: Linux
@@ -11,7 +11,7 @@ BuildArch: noarch
 Source0: %{name}-%{version}.tar.bz2
 Obsoletes: anaconda-reconfig
 Prereq: chkconfig, /etc/init.d
-BuildPreReq: python-tools
+BuildPreReq: gettext
 Requires: pygtk2
 Requires: python
 Requires: usermode >= 1.36
@@ -25,6 +25,8 @@ Requires: redhat-config-soundcard
 Requires: redhat-config-securitylevel
 Requires: redhat-config-rootpassword
 Requires: redhat-config-packages
+Requires: redhat-config-network
+Requires: authconfig-gtk
 Requires: libuser
 Requires: up2date
 Requires: redhat-logos
@@ -71,6 +73,140 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed Oct 15 2003 Brent Fox <bfox@redhat.com> 1.2.4-1
+- pull lightrays.png from a different location
+
+* Wed Oct  8 2003 Brent Fox <bfox@redhat.com> 1.2.3-1
+- override rhgb's background
+
+* Wed Oct  8 2003 Brent Fox <bfox@redhat.com> 1.2.2-1
+- remove up2date module from Fedora
+
+* Mon Sep 22 2003 Brent Fox <bfox@redhat.com> 1.2.1-1
+- remove some items from the additional cd's screen for now
+- remove some references to Red Hat Linux from welcome.py and up2date.py
+
+* Fri Aug 29 2003 Brent Fox <bfox@redhat.com> 1.1.16-2
+- bump relnum and rebuild
+
+* Fri Aug 29 2003 Brent Fox <bfox@redhat.com> 1.1.16-1
+- call authconfig with --firstboot flag correctly (bug #103367)
+
+* Thu Aug 28 2003 Brent Fox <bfox@bfox.devel.redhat.com> 1.1.15-2
+- bump relnum and rebuild
+
+* Thu Aug 28 2003 Brent Fox <bfox@bfox.devel.redhat.com> 1.1.15-1
+- handle network timeouts better in the date.py screen
+
+* Thu Aug 28 2003 Brent Fox <bfox@bfox.devel.redhat.com> 1.1.14-1
+- handle cds without autorun files better in additional_cds.py
+
+* Thu Aug 21 2003 Brent Fox <bfox@redhat.com> 1.1.13-3
+- bump relnum and rebuild
+
+* Thu Aug 21 2003 Brent Fox <bfox@redhat.com> 1.1.13-2
+- bump relnum and rebuild
+
+* Thu Aug 21 2003 Brent Fox <bfox@redhat.com> 1.1.13-1
+- pass --firstboot flag to authconfig-gtk in create_user.py
+
+* Tue Aug 19 2003 Brent Fox <bfox@redhat.com> 1.1.12-2
+- bump relnum and rebuild
+
+* Tue Aug 19 2003 Brent Fox <bfox@redhat.com> 1.1.12-1
+- fix formatting bug in create_user.py
+
+* Fri Aug 15 2003 Brent Fox <bfox@redhat.com> 1.1.11-2
+- bump relnum and rebuild
+
+* Fri Aug 15 2003 Brent Fox <bfox@redhat.com> 1.1.11-1
+- run 'chkconfig --del firstboot' when it's done
+
+* Thu Aug 14 2003 Brent Fox <bfox@redhat.com> 1.1.10-1
+- allow underscores and dashes in usernames (bug #99115)
+
+* Wed Aug 13 2003 Brent Fox <bfox@redhat.com> 1.1.9-1
+- replace BuildRequires on python-tools with gettext
+
+* Thu Jul 31 2003 Brent Fox <bfox@redhat.com> 1.1.8-2
+- bump relnum and rebuild
+
+* Thu Jul 31 2003 Brent Fox <bfox@redhat.com> 1.1.8-1
+- apply patch from hfuchi@redhat.com for Japanese translation
+
+* Thu Jul 31 2003 Brent Fox <bfox@redhat.com> 1.1.7-2
+- bump relnum and rebuild
+
+* Thu Jul 31 2003 Brent Fox <bfox@redhat.com> 1.1.7-1
+- change runPriority in welcome module
+
+* Tue Jul 22 2003 Brent Fox <bfox@redhat.com> 1.1.6-2
+- bump relnum and rebuild
+
+* Tue Jul 22 2003 Brent Fox <bfox@redhat.com> 1.1.6-1
+- resolve conflict between "Next" and "Forward" (bug #100498)
+
+* Fri Jul 18 2003 Brent Fox <bfox@redhat.com> 1.1.5-2
+- bump relnum and rebuild
+
+* Fri Jul 18 2003 Brent Fox <bfox@redhat.com> 1.1.5-1
+- fix conficting nmemonics (bug #99279)
+
+* Wed Jul  2 2003 Brent Fox <bfox@redhat.com> 1.1.4-2
+- bump relnum and rebuild
+
+* Wed Jul  2 2003 Brent Fox <bfox@redhat.com> 1.1.4-1
+- remove unneeded code from the neworking module
+
+* Thu Jun 26 2003 Brent Fox <bfox@redhat.com> 1.1.3-1
+- first stab at getting locale changing working (#91984)
+
+* Thu Jun 19 2003 Brent Fox <bfox@redhat.com> 1.1.2-2
+- bump number and rebuild
+
+* Thu Jun 19 2003 Brent Fox <bfox@redhat.com> 1.1.2-1
+- implement networking screen for reconfig mode (bug #91984)
+
+* Mon Jun 16 2003 Brent Fox <bfox@redhat.com> 1.1.1-2
+- bump number and rebuild
+
+* Mon Jun 16 2003 Brent Fox <bfox@redhat.com> 1.1.1-1
+- create a timezone module (bug #91984)
+
+* Tue Jun 10 2003 Brent Fox <bfox@redhat.com> 1.0.12-1
+- change "Forward" button to "Next"
+
+* Fri May 30 2003 Brent Fox <bfox@redhat.com> 1.0.11-1
+- fix traceback in username verification
+
+* Thu May 29 2003 Brent Fox <bfox@redhat.com> 1.0.10-1
+- updated deprecated function call in functions.py
+- don't grab the whole screen in debug mode
+
+* Thu May 22 2003 Brent Fox <bfox@redhat.com> 1.0.9-1
+- remove explicit vt7 argument to X (bug #87636)
+
+* Thu May 22 2003 Brent Fox <bfox@redhat.com> 1.0.8-1
+- pass rhgb status into firstbootWindow.py
+- don't draw background if rhgb isn't running
+
+* Mon May 19 2003 Brent Fox <bfox@redhat.com> 1.0.7-1
+- check to see if rhgb is running
+- if rhgb is running, start up metacity and merge X resources
+
+* Fri May 16 2003 Brent Fox <bfox@redhat.com> 1.0.6-2
+- Added a mnemonic for network login button (bug #90636)
+- added more mnemonics create_user.py (bug #90865)
+
+* Mon Mar 24 2003 Brent Fox <bfox@redhat.com> 1.0.6-1
+- add a button to create_user.py to launch authconfig-gtk
+
+* Fri Mar  7 2003 Brent Fox <bfox@redhat.com> 1.0.5-13
+- bump rev for 3.0E
+
+* Fri Feb 28 2003 Brent Fox <bfox@redhat.com> 1.0.5-12
+- fix bug #85358
+
 * Tue Feb 25 2003 Jeremy Katz <katzj@redhat.com> 1.0.5-11
 - background image name changed (#85160)
 - don't traceback if background doesn't exist
