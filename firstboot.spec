@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 Version: 1.0.1
-Release: 7
+Release: 8
 URL: http://www.redhat.com/
 License: GPL
 ExclusiveOS: Linux
@@ -19,11 +19,9 @@ Requires: metacity
 Requires: rhpl
 Requires: redhat-config-date
 Requires: redhat-config-language
-%ifnarch s390 s390x
 Requires: redhat-config-mouse
 Requires: redhat-config-keyboard
 Requires: redhat-config-soundcard
-%endif
 Requires: redhat-config-securitylevel
 Requires: redhat-config-rootpassword
 Requires: redhat-config-packages
@@ -68,6 +66,9 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Tue Sep 03 2002 Brent Fox <bfox@redhat.com> 1.0.1-8
+- get new pixmaps from garrett
+
 * Fri Aug 30 2002 Brent Fox <bfox@redhat.com> 1.0.1-7
 - Wrap umount in a try/except in additional_cds.py
 
