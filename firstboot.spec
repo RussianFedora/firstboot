@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.33
-Release: 1
+Version: 1.3.39
+Release: 3
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -28,7 +28,7 @@ Requires: system-config-packages
 Requires: system-config-network
 Requires: authconfig-gtk
 Requires: libuser
-Requires: up2date
+Requires: up2date >= 4.3.38
 Requires: redhat-logos
 Requires: redhat-artwork
 Requires: xsri
@@ -76,6 +76,27 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed Mar 9 2005 Elliot Lee <sopwith@redhat.com> - 1.3.39-3
+- Rebuild for FC4test1
+
+* Fri Dec 14 2004 Adrian Likins <alikins@redhat.com> - 1.3.39-2
+- really fix #138727 (was looking for cdroms in the wrong place)
+
+* Fri Dec 14 2004 Adrian Likins <alikins@redhat.com> - 1.3.38-1
+- fix #138727 (patch from katzj)
+- latest translations
+
+* Fri Nov 12 2004 Adrian Likins <alikins@redhat.com> - 1.3.37-2
+- fix #139060
+
+* Wed Nov 10 2004 Adrian Likins <alikins@redhat.com> - 1.3.35-1
+- fix #137151
+- fix #138541
+
+* Wed Oct 27 2004 Adrian Likins <alikins@redhat.com> - 1.3.34-1
+- add code to detect if a module wants to be skipped
+  (basically, stuff to me not show RHN modules on fedora)
+
 * Mon Oct 18 2004 Adrian Likins <alikins@redhat.com> - 1.3.33-1
 - #129885 (do the right thing on ia64)
 - #129532 (typo in display file location)
