@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.41
-Release: 4 
+Version: 1.3.42
+Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -76,14 +76,14 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Wed May 25 2005 Jeremy Katz <katzj@redhat.com> - 1.3.42-1
+- Stop using deprecated gtk.{TRUE,FALSE} (#153033)
+
 * Tue May 24 2005 Adrian Likins <alikins@redhat.com> - 1.3.41
 - fix #158095 - Subscription Alert (on first login) on non network installs
 
 * Thu May 19 2005 Adrian Likins <alikins@redhat.com> - 1.3.40
 - fix #154606 - First boot displays "please insert the red hat enterprise linux extras disk"
-
-* Wed Mar 9 2005 Elliot Lee <sopwith@redhat.com> - 1.3.39-3
-- Rebuild for FC4test1
 
 * Fri Dec 14 2004 Adrian Likins <alikins@redhat.com> - 1.3.39-2
 - really fix #138727 (was looking for cdroms in the wrong place)
