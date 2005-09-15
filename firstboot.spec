@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 Version: 1.3.47
-Release: 1
+Release: 2
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -18,9 +18,7 @@ Requires: usermode >= 1.36
 Requires: metacity
 Requires: rhpl
 Requires: system-config-date >= 1.7.9
-%ifnarch ppc64
 Requires: system-config-display
-%endif
 Requires: system-config-language
 Requires: system-config-keyboard
 Requires: system-config-soundcard
@@ -76,6 +74,10 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Thu Sep 15 2005 Jeremy Katz <katzj@redhat.com> - 1.3.47-2
+- exclude arch ppc64 to stop from being included in ppc64 compose where 
+  we don't have X
+
 * Thu Sep 15 2005 Chris Lumens <clumens@redhat.com> 1.3.47-1
 - Moved firstboot_gui_window here from rhpl and renamed it to
   firstboot_module_window.
