@@ -1,7 +1,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.3.47
-Release: 2
+Version: 1.3.48
+Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
 ExclusiveOS: Linux
@@ -74,6 +74,10 @@ fi
 /usr/sbin/firstboot
 
 %changelog
+* Fri Sep 23 2005 Chris Lumens <clumens@redhat.com> 1.3.48-1
+- Fix autoscreenshot test (#169102).
+- Allow unicode letters in full user names (#169043).
+
 * Thu Sep 15 2005 Jeremy Katz <katzj@redhat.com> - 1.3.47-2
 - exclude arch ppc64 to stop from being included in ppc64 compose where 
   we don't have X
