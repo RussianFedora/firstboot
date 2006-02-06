@@ -1,6 +1,6 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.4.2
+Version: 1.4.3
 Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
@@ -21,6 +21,8 @@ Requires: system-config-soundcard
 Requires: system-config-securitylevel
 Requires: system-config-network
 Requires: system-config-users
+Requires: system-config-date >= 1.7.9
+Requires: system-config-keyboard
 Requires: authconfig-gtk
 Requires: libuser
 Requires: redhat-logos
@@ -41,12 +43,8 @@ BuildPreReq: gettext
 Requires: python
 Requires: usermode >= 1.36
 Requires: rhpl
-Requires: system-config-date >= 1.7.9
-Requires: system-config-keyboard
 Requires: system-config-securitylevel-tui
-Requires: system-config-rootpassword
 Requires: netconfig
-Requires: system-config-printer
 Requires: ntsysv
 Requires: authconfig
 
@@ -72,7 +70,7 @@ if ! [ -f /etc/sysconfig/firstboot ]
 then
   chkconfig --add firstboot
 fi
-		
+
 %preun
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
@@ -110,6 +108,13 @@ fi
 
 
 %changelog
+* Mon Feb 06 2006 Chris Lumens <clumens@redhat.com> 1.4.3-1
+- Tweak firstboot-tui requires to not require X (#180046).
+- Wrap left side labels if they're too long.
+- Remove "Click to Finish" module (#178109).
+- Try to prevent running in runlevel 3 if we failed in runlevel 5
+  (#145169).
+
 * Fri Jan 27 2006 Chris Lumens <clumens@redhat.com> 1.4.2-1
 - Layout cleanups and simplification.
 - Use GTK styles to display the new artwork in non-debug mode.
