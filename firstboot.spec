@@ -1,6 +1,6 @@
 Summary: Initial system configuration utility
 Name: firstboot
-Version: 1.4.20
+Version: 1.4.21
 Release: 1
 URL: http://fedora.redhat.com/projects/config-tools/
 License: GPL
@@ -44,7 +44,7 @@ Requires: python
 Requires: usermode >= 1.36
 Requires: rhpl
 Requires: system-config-securitylevel-tui
-Requires: netconfig
+Requires: system-config-network-tui
 Requires: ntsysv
 Requires: authconfig
 
@@ -108,6 +108,11 @@ fi
 
 
 %changelog
+* Fri Sep 15 2006 Chris Lumens <clumens@redhat.com> 1.4.21-1
+- Use system-config-network-tui instead of netconfig in the text
+  interface.
+- Remove unused methods in the modules.
+
 * Tue Sep 12 2006 Chris Lumens <clumens@redhat.com> 1.4.20-1
 - Don't specify a default color depth.
 - Pull in new translations (#199090).
