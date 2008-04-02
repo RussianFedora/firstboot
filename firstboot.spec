@@ -3,7 +3,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.93
+Version: 1.94
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
@@ -17,7 +17,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
 Requires: metacity, pygtk2, rhpl, python
-Requires: setuptool
+Requires: setuptool, libuser-python
 Requires(post): chkconfig
 
 %ifnarch s390 s390x ppc64
@@ -70,6 +70,11 @@ fi
 %{_datadir}/firstboot/themes/default/*
 
 %changelog
+* Wed Apr 02 2008 Chris Lumens <clumens@redhat.com> 1.94-1
+- Look in the right directory for Fedora artwork (#439283).
+- Require libuser-python (#439307).
+- Translation updates.
+
 * Wed Mar 26 2008 Chris Lumens <clumens@redhat.com> 1.93-1
 - Add in the text mode interface.
 - Wait for the X server to exit (#431469).
