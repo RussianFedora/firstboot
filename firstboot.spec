@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.103
-Release: 1%{?dist}
+Release: 2%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -70,6 +70,9 @@ fi
 %{_datadir}/firstboot/themes/default/*
 
 %changelog
+* Sat Nov 29 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 1.103-2
+- Rebuild for Python 2.6
+
 * Tue Nov 04 2008 Chris Lumens <clumens@redhat.com> 1.103-1
 - Try another way of waiting for X to terminate (#469501).
 
