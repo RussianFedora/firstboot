@@ -3,8 +3,8 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.105
-Release: 3%{?dist}
+Version: 1.107
+Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -18,7 +18,7 @@ BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
 Requires: metacity, pygtk2, rhpl, python
 Requires: setuptool, libuser-python, system-config-users, system-config-date
-Requires: authconfig-gtk
+Requires: authconfig-gtk, python-meh
 Requires(post): chkconfig
 
 %define debug_package %{nil}
@@ -71,11 +71,12 @@ fi
 %{_datadir}/firstboot/themes/default/*
 
 %changelog
-* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.105-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+* Tue Jul 28 2009 Chris Lumens <clumens@redhat.com> 1.107-1
+- Convert to using python-meh.
 
-* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.105-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+* Tue May 05 2009 Chris Lumens <clumens@redhat.com> 1.106-1
+- Display an error message when the user doesn't supply a password (#480927).
+- Lots of translation updates.
 
 * Fri Jan 16 2009 Chris Lumens <clumens@redhat.com> 1.105-1
 - Fix a typo in starting up X.
