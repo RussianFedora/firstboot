@@ -3,8 +3,8 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.111
-Release: 2%{?dist}
+Version: 1.112
+Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -22,6 +22,7 @@ Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
 Requires: cracklib-python
+Requires: systemd-units
 Requires(post): chkconfig
 
 %define debug_package %{nil}
@@ -49,6 +50,8 @@ rm -rf %{buildroot}
 %post
 if ! [ -f /etc/sysconfig/firstboot ]; then
   chkconfig --add firstboot
+  systemctl enable firstboot-text.service >/dev/null 2>&1 || :
+  systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
 fi
 
 %preun
@@ -56,6 +59,8 @@ if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
   chkconfig --del firstboot
+  systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
+  systemctl disable firstboot-text.service >/dev/null 2>&1 || :
 fi
 
 %files -f %{name}.lang
@@ -72,10 +77,13 @@ fi
 %{_datadir}/firstboot/modules/eula.py*
 %{_datadir}/firstboot/modules/welcome.py*
 %{_datadir}/firstboot/themes/default/*
+/lib/systemd/system/firstboot-text.service
+/lib/systemd/system/firstboot-graphical.service
 
 %changelog
-* Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 1.111-2
-- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+* Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.112-1
+- Add systemd support (adamw)
+- Translation updates
 
 * Thu Jul 15 2010 Martin Gracik <mgracik@redhat.com> 1.111-1
 - Fixed indenting
