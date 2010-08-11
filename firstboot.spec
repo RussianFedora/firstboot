@@ -4,11 +4,12 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.112
-Release: 2%{?dist}
+Release: 3%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
+Patch0: firstboot-1.112-text_after_getty.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -35,6 +36,7 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 
@@ -80,7 +82,10 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
-* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-1
+* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-3
+- make sure we start up before tty1 is spawned, in text boot
+
+* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-2
 - don't enable the legacy sysv service on install
 
 * Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.112-1

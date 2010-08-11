@@ -1,0 +1,10 @@
+--- firstboot-1.112/systemd/firstboot-text.service	2010-08-10 14:10:35.000000000 -0700
++++ firstboot-1.112/systemd/firstboot-text.service.new	2010-08-10 17:38:16.160109600 -0700
+@@ -1,6 +1,7 @@
+ [Unit]
+ Description=firstboot configuration program (text mode)
+ After=livesys.service
++Before=getty@tty1.service
+ 
+ [Service]
+ Environment=RUNLEVEL=3
