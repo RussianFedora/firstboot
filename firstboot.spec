@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.112
-Release: 1%{?dist}
+Release: 2%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -49,7 +49,6 @@ rm -rf %{buildroot}
 
 %post
 if ! [ -f /etc/sysconfig/firstboot ]; then
-  chkconfig --add firstboot
   systemctl enable firstboot-text.service >/dev/null 2>&1 || :
   systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
 fi
@@ -81,6 +80,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-1
+- don't enable the legacy sysv service on install
+
 * Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.112-1
 - Add systemd support (adamw)
 - Translation updates
