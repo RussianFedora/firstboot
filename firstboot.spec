@@ -3,13 +3,12 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.112
-Release: 3%{?dist}
+Version: 1.113
+Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
-Patch0: firstboot-1.112-text_after_getty.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -36,7 +35,6 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 
@@ -59,7 +57,6 @@ fi
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
-  chkconfig --del firstboot
   systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
   systemctl disable firstboot-text.service >/dev/null 2>&1 || :
 fi
@@ -82,11 +79,13 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
-* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-3
-- make sure we start up before tty1 is spawned, in text boot
-
-* Tue Aug 10 2010 Adam Williamson <awilliam@redhat.com> 1.112-2
-- don't enable the legacy sysv service on install
+* Thu Aug 26 2010 Martin Gracik <mgracik@redhat.com> 1.113-1
+- Updated the .pot file
+- Changed string formatting for translations (#618610)
+- Syntax changed in new systemd
+- Make sure we start before tty1 in text mode
+- Don't use the legacy sysv services anymore
+- Translation updates
 
 * Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.112-1
 - Add systemd support (adamw)
