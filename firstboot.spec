@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.113
-Release: 1%{?dist}
+Release: 2%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -49,6 +49,7 @@ rm -rf %{buildroot}
 
 %post
 if ! [ -f /etc/sysconfig/firstboot ]; then
+  chkconfig --add firstboot
   systemctl enable firstboot-text.service >/dev/null 2>&1 || :
   systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
 fi
@@ -57,6 +58,7 @@ fi
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
+  chkconfig --del firstboot
   systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
   systemctl disable firstboot-text.service >/dev/null 2>&1 || :
 fi
@@ -79,6 +81,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Tue Sep 14 2010 Bill Nottingham <notting@redhat.com> 1.113-2
+- reenable sysv service
+
 * Thu Aug 26 2010 Martin Gracik <mgracik@redhat.com> 1.113-1
 - Updated the .pot file
 - Changed string formatting for translations (#618610)
