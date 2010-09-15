@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.113
-Release: 2%{?dist}
+Release: 3%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -16,18 +16,21 @@ ExclusiveOS: Linux
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
-Requires: metacity, pygtk2, python
+Requires: pygtk2, python
 Requires: setuptool, libuser-python, system-config-users, system-config-date
 Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
 Requires: cracklib-python
 Requires: systemd-units
+Requires: firstboot(windowmanager)
 Requires(post): chkconfig
 
 %define debug_package %{nil}
 
 Obsoletes: firstboot-tui < 1.90-1
+
+Patch1: firstboot-1.113-kwin.patch
 
 %description
 The firstboot utility runs after installation.  It guides the user through
@@ -35,6 +38,7 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
+%patch1 -p1 -b .kwin
 
 %build
 
@@ -81,6 +85,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Wed Sep 15 2010 Rex Dieter <rdieter@fedoraproject.org> 1.113-3
+- firstboot -> metacity dep (#605675)
+
 * Tue Sep 14 2010 Bill Nottingham <notting@redhat.com> 1.113-2
 - reenable sysv service
 
