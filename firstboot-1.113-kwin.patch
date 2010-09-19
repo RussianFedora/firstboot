@@ -6,7 +6,7 @@ diff -up firstboot-1.113/firstboot/xfrontend.py.kwin firstboot-1.113/firstboot/x
  
          if not self._wm_pid:
 -            path = "/usr/bin/metacity"
-+            paths = ["/usr/bin/metacity", "/usr/bin/kwin"]
++            paths = ["/usr/bin/metacity", "/usr/bin/kwin", "/usr/bin/xfwm4", "/usr/bin/openbox"]
 +            for path in paths:
 +                if os.access(path, os.X_OK): break 
              args = [path, "--display", os.environ["DISPLAY"]]

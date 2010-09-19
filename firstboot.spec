@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.113
-Release: 3%{?dist}
+Release: 4%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -85,6 +85,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Sun Sep 19 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> 1.113-4
+- extend kwin patch to also support xfwm4 (Xfce) and openbox (LXDE) (#605675)
+
 * Wed Sep 15 2010 Rex Dieter <rdieter@fedoraproject.org> 1.113-3
 - firstboot -> metacity dep (#605675)
 
