@@ -4,11 +4,12 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.110
-Release: 1%{?dist}
+Release: 1%{?dist}.7
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
+Patch0: firstboot-1.110-rfremix.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -33,6 +34,7 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
+%patch0 -p1 -b .rfremix
 
 %build
 
@@ -69,10 +71,34 @@ fi
 %{_datadir}/firstboot/modules/create_user.py*
 %{_datadir}/firstboot/modules/date.py*
 %{_datadir}/firstboot/modules/eula.py*
+%{_datadir}/firstboot/modules/rfremix.py*
 %{_datadir}/firstboot/modules/welcome.py*
 %{_datadir}/firstboot/themes/default/*
 
 %changelog
+* Tue Aug 24 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.7
+- disable GDM/KDM selector if one of them is absent
+- Permissive selinux without reboot now
+
+* Mon May 24 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.6
+- fix menus_have_icons
+
+* Sun May 23 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.5
+- disable autologin and sudo
+
+* Sat May 22 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.4
+- added SELInux switcher
+
+* Sat May 22 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.3
+- push rfremix.py after create_user.py
+
+* Sat May 22 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.2
+- added many configuration options
+
+* Mon Mar 15 2010 Arkady L. Shane <ashejn@yandex-team.ru> - 1.110-1.1
+- added RFRemix configure screen
+- change EULA for RFRemix
+
 * Wed Oct 14 2009 Chris Lumens <clumens@redhat.com> 1.110-1
 - Always attempt to display the Fedora logo, if present (jmccann).
 - Fix a bunch of small firstboot UI problems (jmccann).
