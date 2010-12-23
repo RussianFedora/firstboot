@@ -1,0 +1,99 @@
+diff -urN firstboot-1.113/modules/create_user.py firstboot-1.113.new/modules/create_user.py
+--- firstboot-1.113/modules/create_user.py	2010-09-27 14:14:13.899974184 +0400
++++ firstboot-1.113.new/modules/create_user.py	2010-09-27 17:27:27.668136431 +0400
+@@ -208,6 +208,24 @@
+ 
+         self.admin.setpassUser(userEnt, self.passwordEntry.get_text(), 0)
+ 
++        if self.ch1.get_property('sensitive') and self.ch1.state == 1:
++            os.system('echo "' + username + ' ALL=(ALL) ALL" >> /etc/sudoers.d/' + username)
++            os.system('chmod 0440 /etc/sudoers.d/' + username)
++
++        if self.ch2.get_property('sensitive') and self.ch2.state == 1:
++            if os.path.exists('/etc/gdm/custom.conf'):
++                os.system('echo "[daemon]" >> /etc/gdm/custom.conf')
++                os.system('echo "TimedLoginEnable=true" >> /etc/gdm/custom.conf')
++                os.system('echo "TimedLogin=' + username +'" >>/etc/gdm/custom.conf')
++                os.system('echo "TimedLoginDelay=2" >> /etc/gdm/custom.conf')
++
++            if os.path.exists('/etc/kde/kdm/kdmrc'):
++                os.system("sed -i 's/#AutoLoginEnable=true/AutoLoginEnable=true/' /etc/kde/kdm/kdmrc")
++                os.system("sed -i 's/#AutoLoginUser=fred/AutoLoginUser=" + username + "/' /etc/kde/kdm/kdmrc")
++
++            if os.path.exists('/etc/lxdm/lxdm.conf'):
++                os.system("sed -i 's|# autologin=dgod|autologin=" + username + "|g' /etc/lxdm/lxdm.conf")
++
+         return RESULT_SUCCESS
+ 
+     def createScreen(self):
+@@ -270,13 +288,24 @@
+ 
+         self.vbox.pack_start(table, False)
+ 
++        self.vbox.pack_start(label, False, False, 10)
++
++        self.ch1 = gtk.CheckButton(label=_('Allow this user to use sudo'))
++        self.vbox.pack_start(self.ch1, False, True, 1)
++
++        self.ch2 = gtk.CheckButton(label=_('Enable Autologin'))
++        self.vbox.pack_start(self.ch2, False, True, 1)
++
++        if not os.path.exists('/usr/sbin/gdm') and not os.path.exists('/etc/kde/kdm/kdmrc') and not os.path.exists('/etc/lxdm/lxdm.conf'):
++            self.ch2.set_sensitive(False)
++
+         label = gtk.Label(_("If you need to use network authentication, such as Kerberos or NIS, "
+                             "please click the Use Network Login button."))
+ 
+         label.set_line_wrap(True)
+         label.set_alignment(0.0, 0.5)
+         label.set_size_request(500, -1)
+-        self.vbox.pack_start(label, False, True, padding=20)
++        self.vbox.pack_start(label, False, True, padding=0)
+ 
+         authHBox = gtk.HBox()
+         authButton = gtk.Button(_("Use Network _Login..."))
+@@ -294,7 +323,7 @@
+         label.set_line_wrap(True)
+         label.set_alignment(0.0, 0.5)
+         label.set_size_request(500, -1)
+-        self.vbox.pack_start(label, False, True, padding=20)
++        self.vbox.pack_start(label, False, True, padding=0)
+ 
+         scuHBox = gtk.HBox()
+         scuButton = gtk.Button(_("_Advanced..."))
+diff -urN firstboot-1.113/po/ru.po firstboot-1.113.new/po/ru.po
+--- firstboot-1.113/po/ru.po	2010-09-27 14:14:33.212011954 +0400
++++ firstboot-1.113.new/po/ru.po	2010-09-27 17:27:08.193011805 +0400
+@@ -245,14 +245,30 @@
+ msgid "Confir_m Password:"
+ msgstr "По_дтвердите пароль:"
+ 
+-#: ../modules/create_user.py:261
++#: ../modules/create_user.py:293
++msgid "Allow this user to use sudo"
++msgstr "Разрешить этому пользователю использовать sudo"
++
++#: ../modules/create_user.py:296
++msgid "Enable Autologin"
++msgstr "Разрешить автоматический вход в систему"
++
++#: ../modules/create_user.py:302
+ msgid "If you need to use network authentication, such as Kerberos or NIS, please click the Use Network Login button."
+ msgstr "Если требуется использовать проверку подлинности по сети, например Kerberos или NIS, нажмите кнопку «Сетевая авторизация»."
+ 
+-#: ../modules/create_user.py:270
++#: ../modules/create_user.py:311
+ msgid "Use Network _Login..."
+ msgstr "Сетевая аут_ентификация..."
+ 
++#: ../modules/create_user.py:319
++msgid "If you need more control when creating the user (specifying home directory, and/or UID), please click the Advanced button."
++msgstr "Если вам необходимо больше контроля, когда создаёте пользователя (указать домашний каталог и/или UID), пожалуйста, щёлкните по кнопке Дополнительно."
++
++#: ../modules/create_user.py:329
++msgid "_Advanced..."
++msgstr "_Дополнительно..."
++
+ #: ../modules/create_user.py:308
+ msgid "Please wait"
+ msgstr "Подождите"

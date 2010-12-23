@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.113
-Release: 4%{?dist}
+Release: 4%{?dist}.5
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -30,7 +30,9 @@ Requires(post): chkconfig
 
 Obsoletes: firstboot-tui < 1.90-1
 
+Patch0: firstboot-1.113-rfremix-u1.patch
 Patch1: firstboot-1.113-kwin.patch
+Patch2:	firstboot-1.113-advanced-createuser.patch
 
 %description
 The firstboot utility runs after installation.  It guides the user through
@@ -38,7 +40,9 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
+%patch0 -p1 -b .rfremix-u1
 %patch1 -p1 -b .kwin
+%patch2 -p1 -b .advanced-createuser
 
 %build
 
@@ -80,11 +84,28 @@ fi
 %{_datadir}/firstboot/modules/date.py*
 %{_datadir}/firstboot/modules/eula.py*
 %{_datadir}/firstboot/modules/welcome.py*
+%{_datadir}/firstboot/modules/rfremix.py*
 %{_datadir}/firstboot/themes/default/*
 /lib/systemd/system/firstboot-text.service
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Wed Sep 29 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.5
+- we use system freetype so drop switcher from rfremix.py
+
+* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.4
+- fix KDE autologin
+- two seconds for GDM autologin
+
+* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.3
+- null padding on createuser page
+
+* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.2
+- added some new configs while creating user: autologin and sudo
+
+* Tue Sep 21 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.1
+- apply old rfremix patch
+
 * Sun Sep 19 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> 1.113-4
 - extend kwin patch to also support xfwm4 (Xfce) and openbox (LXDE) (#605675)
 
