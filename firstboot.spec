@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.113
-Release: 4%{?dist}.5
+Release: 4%{?dist}.6
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -33,7 +33,7 @@ Obsoletes: firstboot-tui < 1.90-1
 Patch0: firstboot-1.113-rfremix-u1.patch
 Patch1: firstboot-1.113-kwin.patch
 Patch2:	firstboot-1.113-advanced-createuser.patch
-
+Patch3: firstboot-1.113-sudo.patch
 %description
 The firstboot utility runs after installation.  It guides the user through
 a series of steps that allows for easier configuration of the machine.
@@ -43,7 +43,7 @@ a series of steps that allows for easier configuration of the machine.
 %patch0 -p1 -b .rfremix-u1
 %patch1 -p1 -b .kwin
 %patch2 -p1 -b .advanced-createuser
-
+%patch3 -p1 -b .sudo
 %build
 
 %install
