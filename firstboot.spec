@@ -90,6 +90,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Mon Feb 14 2011 Alexei Panov <elemc@atisserv.ru> 1.113-4.6
+- changed sudo checkbox to combobox
+
 * Wed Sep 29 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.5
 - we use system freetype so drop switcher from rfremix.py
 
