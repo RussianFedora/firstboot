@@ -3,8 +3,8 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.113
-Release: 4%{?dist}.6
+Version: 1.117
+Release: 2%{?dist}.1
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -30,20 +30,18 @@ Requires(post): chkconfig
 
 Obsoletes: firstboot-tui < 1.90-1
 
-Patch0: firstboot-1.113-rfremix-u1.patch
-Patch1: firstboot-1.113-kwin.patch
-Patch2:	firstboot-1.113-advanced-createuser.patch
-Patch3: firstboot-1.113-sudo.patch
+Patch0: quit-plymouth-first-679171.patch
+Patch10: firstboot-1.117-rfremix.patch
+
 %description
 The firstboot utility runs after installation.  It guides the user through
 a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
-%patch0 -p1 -b .rfremix-u1
-%patch1 -p1 -b .kwin
-%patch2 -p1 -b .advanced-createuser
-%patch3 -p1 -b .sudo
+%patch0 -p1 -b .679171
+%patch10 -p1 -b .rfremix
+
 %build
 
 %install
@@ -56,8 +54,7 @@ rm %{buildroot}/%{_datadir}/firstboot/modules/additional_cds.py*
 rm -rf %{buildroot}
 
 %post
-if ! [ -f /etc/sysconfig/firstboot ]; then
-  chkconfig --add firstboot
+if [ $1 -ne 2 -a ! -f /etc/sysconfig/firstboot ]; then
   systemctl enable firstboot-text.service >/dev/null 2>&1 || :
   systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
 fi
@@ -66,7 +63,6 @@ fi
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
-  chkconfig --del firstboot
   systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
   systemctl disable firstboot-text.service >/dev/null 2>&1 || :
 fi
@@ -83,40 +79,49 @@ fi
 %{_datadir}/firstboot/modules/create_user.py*
 %{_datadir}/firstboot/modules/date.py*
 %{_datadir}/firstboot/modules/eula.py*
-%{_datadir}/firstboot/modules/welcome.py*
 %{_datadir}/firstboot/modules/rfremix.py*
+%{_datadir}/firstboot/modules/welcome.py*
 %{_datadir}/firstboot/themes/default/*
 /lib/systemd/system/firstboot-text.service
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
-* Mon Feb 14 2011 Alexei Panov <elemc@atisserv.ru> 1.113-4.6
-- changed sudo checkbox to combobox
+* Sat Mar 19 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.1
+- RFRemixify
+- added new Eula
+- added rfremix config screens
 
-* Wed Sep 29 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.5
-- we use system freetype so drop switcher from rfremix.py
+* Fri Feb 25 2011 Brian C. Lane <bcl@redhat.com> 1.117-2
+- We need to quit plymouth before running firstboot (#679171)
 
-* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.4
-- fix KDE autologin
-- two seconds for GDM autologin
+* Fri Feb 18 2011 Martin Gracik <mgracik@redhat.com> 1.117-1
+- Fix username guessing with unicode chars (#678070)
 
-* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.3
-- null padding on createuser page
+* Tue Feb 15 2011 Martin Gracik <mgracik@redhat.com> 1.116-1
+- systemd's ValidNoProcess renamed to RemainAfterExit
+- Don't run Xorg with -nr option and use vt1
+- Translation updates
 
-* Mon Sep 27 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.2
-- added some new configs while creating user: autologin and sudo
+* Fri Jan 14 2011 Martin Gracik <mgracik@redhat.com> 1.115-1
+- Don't enable firstboot service on upgrade (#626676)
+- Set HOME to /root rather than / (#578903)
+- Translation updates
 
-* Tue Sep 21 2010 Arkady L. Shane <ashejn@yandex-team.ru> 1.113-4.1
-- apply old rfremix patch
-
-* Sun Sep 19 2010 Kevin Kofler <Kevin@tigcc.ticalc.org> 1.113-4
-- extend kwin patch to also support xfwm4 (Xfce) and openbox (LXDE) (#605675)
-
-* Wed Sep 15 2010 Rex Dieter <rdieter@fedoraproject.org> 1.113-3
-- firstboot -> metacity dep (#605675)
-
-* Tue Sep 14 2010 Bill Nottingham <notting@redhat.com> 1.113-2
-- reenable sysv service
+* Mon Dec 20 2010 Martin Gracik <mgracik@redhat.com> 1.114-1
+- Support other window managers than metacity (#605675)
+- firstboot -> metacity dep (#605675) (rdieter)
+- Change how we check for user account
+- Use StrengthMeter widget instead of ProgressBar
+- Add StrengthMeter widget to pwcheck
+- Increase the weight of cracklib password check
+- Show the password strength in a progress bar
+- Add strength fraction property to pwcheck
+- Translation updates
+- Change the way we warn for a weak password
+- Add the pwcheck module for getting the password strength
+- Do not show tabs in date and time module
+- Allow the user to be added to wheel group (#462161)
+- Guess user name from full name (#517269)
 
 * Thu Aug 26 2010 Martin Gracik <mgracik@redhat.com> 1.113-1
 - Updated the .pot file
