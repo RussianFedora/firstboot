@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.117
-Release: 2%{?dist}.1
+Release: 2%{?dist}.2
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -32,6 +32,7 @@ Obsoletes: firstboot-tui < 1.90-1
 
 Patch0: quit-plymouth-first-679171.patch
 Patch10: firstboot-1.117-rfremix.patch
+Patch11: firstboot-1.117-rfr-sudo.patch
 
 %description
 The firstboot utility runs after installation.  It guides the user through
@@ -41,6 +42,7 @@ a series of steps that allows for easier configuration of the machine.
 %setup -q
 %patch0 -p1 -b .679171
 %patch10 -p1 -b .rfremix
+%patch11 -p1 -b .rfr-sudo
 
 %build
 
@@ -86,6 +88,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.2
+- added sudo patch
+
 * Sat Mar 19 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.1
 - RFRemixify
 - added new Eula
