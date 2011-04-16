@@ -33,8 +33,8 @@ diff -urN firstboot-1.117.orig/modules/eula.py firstboot-1.117/modules/eula.py
          label.set_size_request(500, -1)
 diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremix.py
 --- firstboot-1.117.orig/modules/rfremix.py	1970-01-01 03:00:00.000000000 +0300
-+++ firstboot-1.117/modules/rfremix.py	2011-04-16 16:42:25.808770622 +0400
-@@ -0,0 +1,242 @@
++++ firstboot-1.117/modules/rfremix.py	2011-04-16 20:41:53.073859894 +0400
+@@ -0,0 +1,260 @@
 +# -*- coding: utf-8 -*-
 +#
 +# This copyrighted material is made available to anyone wishing to use, modify,
@@ -73,11 +73,24 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +            print "%s -> %s" % (key, val)
 +        print '======================================='
 +        if self.ch2.get_property('sensitive') and self.ch2.state == 1:
-+            os.system('/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /desktop/gnome/interface/menus_have_icons true')
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.desktop.interface.gschema.override << FOE\n"
++                      "[org.gnome.desktop.interface]\n"
++                      "menus-have-icons=true\n"
++                      "FOE")
++            os.system('glib-compile-schemas /usr/share/glib-2.0/schemas')
 +        if self.ch3.get_property('sensitive') and self.ch3.state == 1:
-+            os.system('/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /desktop/gnome/interface/buttons_have_icons true')
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.desktop.interface.gschema.override << FOE\n"
++                      "[org.gnome.desktop.interface]\n"
++                      "buttons-have-icons=true\n"
++                      "FOE")
++            os.system('glib-compile-schemas /usr/share/glib-2.0/schemas')
 +        if self.ch5.get_property('sensitive') and self.ch5.state == 1:
 +            os.system('/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false')
++        if self.ch6.get_property('sensitive') and self.ch6.state == 1:
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.gedit.gschema.override << FOE\n"
++                      "[org.gnome.gedit.preferences.encodings]\n"
++                      "auto-detected='[UTF-8,CURRENT,WINDOWS-1251,KOI8R,ISO-8859-5]'\n"
++                      "FOE")
 +        if self.ch15.get_property('sensitive') and self.ch15.state == 1:
 +            os.system('sed -i "s!UseNetworkManager=true!UseNetworkManager=false!g" /etc/PackageKit/PackageKit.conf; sed -i "s!UseNetworkHeuristic=true!UseNetworkHeuristic=false!g" /etc/PackageKit/PackageKit.conf')
 +
@@ -146,14 +159,14 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +        self.ACTIONS_MAP = {}
 +        self.vbox = gtk.VBox()
 +        
-+#        label = gtk.Label(_("Now your can enable some parameters, which are disabled in original "
-+#                            "Fedora, such as fonts style, icons, encoding autodetection and others. "
-+#                            "These are global parameter, they will be enabled for all users."))
-+#        label.set_line_wrap(True)
-+#        label.set_alignment(0.0, 0.5)
-+#        label.set_size_request(500, -1)
++        label = gtk.Label(_("Now you can enable some parameters, which are disabled in original "
++                            "Fedora, such as icons in menu, encoding autodetection and others. "
++                            "These are global parameter, they will be enabled for all users."))
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
 +
-+#        self.vbox.pack_start(label, False, False, 10)
++        self.vbox.pack_start(label, False, False, 10)
 +        
 +        notebook = gtk.Notebook()
 +        
@@ -174,6 +187,8 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +        first_tab_vbox.pack_start(self.ch3, False, True, 1)
 +        self.ch5 = gtk.CheckButton(label=_('Disable menu accelerators in GNOME Terminal'))
 +        first_tab_vbox.pack_start(self.ch5, False, True, 1)
++        self.ch6 = gtk.CheckButton(label=_('Autodetec windows-1251 encoding in Gedit'))
++        first_tab_vbox.pack_start(self.ch6, False, True, 1)
 +
 +        label = gtk.Label(_("<b>System Preferences</b>"))
 +        label.set_use_markup(True)
@@ -188,12 +203,15 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +
 +        self.ch2.set_active(True)
 +        self.ch5.set_active(True)
++        self.ch6.set_active(True)
 +        self.ch15.set_active(True)
 +        if not os.path.exists('/usr/bin/gnome-session'):
 +            self.ch2.set_sensitive(False)
 +            self.ch3.set_sensitive(False)
 +        if not os.path.exists('/usr/bin/gnome-terminal'):
 +            self.ch5.set_sensitive(False)
++        if not os.path.exists('/usr/bin/gedit'):
++            self.ch6.set_sensitive(False)
 +        if not os.path.exists('/etc/PackageKit/PackageKit.conf'):
 +            self.ch15.set_sensitive(False)
 +
@@ -1702,7 +1720,7 @@ diff -urN firstboot-1.117.orig/po/ro.po firstboot-1.117/po/ro.po
  msgid "Understood, please proceed."
 diff -urN firstboot-1.117.orig/po/ru.po firstboot-1.117/po/ru.po
 --- firstboot-1.117.orig/po/ru.po	2011-04-16 16:01:16.332769580 +0400
-+++ firstboot-1.117/po/ru.po	2011-04-16 16:41:04.198073644 +0400
++++ firstboot-1.117/po/ru.po	2011-04-16 20:41:48.419883998 +0400
 @@ -286,7 +286,7 @@
  
  #: ../modules/eula.py:45
@@ -1724,7 +1742,7 @@ diff -urN firstboot-1.117.orig/po/ru.po firstboot-1.117/po/ru.po
  "из которых имеет свою собственную лицензию. Использование этих пакетов "
  "допускается в рамках лицензии GNU General Public License 2. Никаких "
  "ограничений по использованию, копированию или изменению данного кода нет. "
-@@ -308,12 +308,87 @@
+@@ -308,12 +308,90 @@
  "на торговые марки и контролю использования.\n"
  "\n"
  "Подробную информацию можно найти по адресу "
@@ -1739,74 +1757,77 @@ diff -urN firstboot-1.117.orig/po/ru.po firstboot-1.117/po/ru.po
 +msgid "RFRemix configure"
 +msgstr "Настройка RFRemix"
 +
-+##: ../modules/rfremix.py:112
-+#msgid ""
-+#"Now your can enable some parameters, which are disabled in original "
-+#"RFRemix, such as fonts style, icons, encoding autodetection and others. "
-+#"These are global parameter, they will be enabled for all users."
-+#msgstr ""
-+#"Cейчас вы можете включить некоторые параметры, которые "
-+#"отключены в оригинальной RFRemix, такие как стиль шрифтов, "
-+#"значки, автоопределение кодировки и другие. Это глобальные параметры, "
-+#"они будут включены для всех пользователей."
++#: ../modules/rfremix.py:125
++msgid "Now you can enable some parameters, which are disabled in original "
++"Fedora, such as icons in menu, encoding autodetection and others. "
++"These are global parameter, they will be enabled for all users."
++msgstr ""
++"Cейчас вы можете включить некоторые параметры, которые "
++"отключены в оригинальной Fedora, такие как значки в "
++"меню, автоопределение кодировки и другие. Это глобальные параметры, "
++"они будут включены для всех пользователей."
 +
-+#: ../modules/rfremix.py:126
++#: ../modules/rfremix.py:139
 +msgid "<b>GNOME Preferences</b>"
 +msgstr "<b>Настройки GNOME</b>"
 +
-+#: ../modules/rfremix.py:134
++#: ../modules/rfremix.py:147
 +msgid "Turn on icons in menus"
 +msgstr "Включить значки в меню"
 +
-+#: ../modules/rfremix.py:136
++#: ../modules/rfremix.py:149
 +msgid "Turn on icons on buttons"
 +msgstr "Включить значки на кнопках"
 +
-+#: ../modules/rfremix.py:138
++#: ../modules/rfremix.py:151
 +msgid "Disable menu accelerators in GNOME Terminal"
 +msgstr "Отключить ускорители меню в GNOME Terminal"
 +
-+#: ../modules/rfremix.py:141
++#: ../modules/rfremix.py:153
++msgid "Autodetec windows-1251 encoding in Gedit"
++msgstr "Автоопределение кодировки windows-1251 в Gedit"
++
++#: ../modules/rfremix.py:156
 +msgid "<b>System Preferences</b>"
 +msgstr "<b>Системные настройки</b>"
 +
-+#: ../modules/rfremix.py:149
++#: ../modules/rfremix.py:164
 +msgid "Let PackageKit work without network"
 +msgstr "Разрешить PackageKit работать с пакетами при отсутствии сети"
 +
-+#: ../modules/rfremix.py:163
++#: ../modules/rfremix.py:181
 +msgid "Desktop Preferences"
 +msgstr "Настройки рабочего стола"
 +
-+#: ../modules/rfremix.py:167
++#: ../modules/rfremix.py:185
 +msgid "System Preferences"
 +msgstr "Системные настройки"
 +
-+#: ../modules/rfremix.py:169
++#: ../modules/rfremix.py:187
 +msgid "<b>Select login manager:</b>"
 +msgstr "<b>Выберите менеджер входа в систему:</b>"
 +
-+#: ../modules/rfremix.py:177
++#: ../modules/rfremix.py:195
 +msgid "KDE Display Manager"
 +msgstr ""
 +
-+#: ../modules/rfremix.py:189
++#: ../modules/rfremix.py:207
 +msgid "GNOME Display Manager"
 +msgstr ""
 +
-+#: ../modules/rfremix.py:204
++#: ../modules/rfremix.py:222
 +msgid "<b>Advanced system settings</b>"
 +msgstr "<b>Дополнительные системные настройки</b>"
 +
-+#: ../modules/rfremix.py:216
++#: ../modules/rfremix.py:234
 +msgid "Enable Ctrl+Alt+Backspace combination to restart X-server"
 +msgstr "Включить комбинацию клавиш Ctrl+Alt+Backspace для перезапуска X-сервера"
 +
-+#: ../modules/rfremix.py:225
++#: ../modules/rfremix.py:243
 +msgid "Disable IPv6 support"
 +msgstr "Отключить поддержку IPv6"
 +
-+#: ../modules/rfremix.py:234
++#: ../modules/rfremix.py:252
 +msgid "Switch SELinux to Permissive"
 +msgstr "Переключить SELinux в разрешающий режим"
 +

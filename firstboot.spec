@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.117
-Release: 2%{?dist}.3.R
+Release: 2%{?dist}.4.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -88,6 +88,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Sat Apr 16 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.4.R
+- use schemas instead gconf where it needed
+
 * Sat Apr 16 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.3.R
 - drop legacy gconf rules
 - drop comments
