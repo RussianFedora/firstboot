@@ -3,8 +3,8 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.117
-Release: 2%{?dist}.4.R
+Version: 1.118
+Release: 1%{?dist}.1.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -30,7 +30,6 @@ Requires(post): chkconfig
 
 Obsoletes: firstboot-tui < 1.90-1
 
-Patch0: quit-plymouth-first-679171.patch
 Patch10: firstboot-1.117-rfremix-15.patch
 Patch11: firstboot-1.117-rfr-sudo.patch
 
@@ -40,7 +39,6 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
-%patch0 -p1 -b .679171
 %patch10 -p1 -b .rfremix-15
 %patch11 -p1 -b .rfr-sudo
 
@@ -88,6 +86,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Wed May  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.118-1.1.R
+- update to 1.118
+
 * Sat Apr 16 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.4.R
 - use schemas instead gconf where it needed
 
