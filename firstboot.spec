@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.119
-Release: 1%{?dist}.1.R
+Release: 1%{?dist}.2.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -86,6 +86,9 @@ fi
 /lib/systemd/system/firstboot-graphical.service
 
 %changelog
+* Tue Aug 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.119-1.2.R
+- drop ipv6 disable checkbox
+
 * Fri May  6 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.119-1.1.R
 - upfate to 1.119
 

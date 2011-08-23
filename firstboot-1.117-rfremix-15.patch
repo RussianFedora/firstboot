@@ -134,10 +134,10 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +        if 'c_m_backspace' in self.ACTIONS_MAP:
 +            os.system("grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard")
 +
-+        if 'disable_ipv6' in self.ACTIONS_MAP:
-+            os.system("echo \"install ipv6 /bin/true blacklist ipv6\" > /etc/modprobe.d/blacklist-ipv6.conf")
-+            os.system("/sbin/service ip6tables stop && /sbin/chkconfig ip6tables off")
-+            os.system("grep 'NETWORKING_IPV6=no' /etc/sysconfig/network || echo \"NETWORKING_IPV6=no\" >> /etc/sysconfig/network")
++        #if 'disable_ipv6' in self.ACTIONS_MAP:
++        #    os.system("echo \"install ipv6 /bin/true blacklist ipv6\" > /etc/modprobe.d/blacklist-ipv6.conf")
++        #    os.system("/sbin/service ip6tables stop && /sbin/chkconfig ip6tables off")
++        #    os.system("grep 'NETWORKING_IPV6=no' /etc/sysconfig/network || echo \"NETWORKING_IPV6=no\" >> /etc/sysconfig/network")
 +
 +        if 'permissive_selinux' in self.ACTIONS_MAP:
 +            os.system("sed -i 's!SELINUX=enforcing!SELINUX=permissive!g' /etc/selinux/config; /usr/sbin/setenforce 0")
@@ -273,14 +273,14 @@ diff -urN firstboot-1.117.orig/modules/rfremix.py firstboot-1.117/modules/rfremi
 +        box.pack_start(c_m_checkbox, False, True, 0)
 +        second_tab_vbox.pack_start(box, False, True, 0)
 +
-+        #
-+        # IPv6 settings
-+        #
-+        box = gtk.VBox()
-+        ipv6_checkbox = gtk.CheckButton(label=_("Disable IPv6 support"))
-+        ipv6_checkbox.connect("toggled", self.callb_checkbox, dict(key="disable_ipv6", val=True))
-+        box.pack_start(ipv6_checkbox, False, True, 0)
-+        second_tab_vbox.pack_start(box, False, True, 0)
++        ##
++        ## IPv6 settings
++        ##
++        #box = gtk.VBox()
++        #ipv6_checkbox = gtk.CheckButton(label=_("Disable IPv6 support"))
++        #ipv6_checkbox.connect("toggled", self.callb_checkbox, dict(key="disable_ipv6", val=True))
++        #box.pack_start(ipv6_checkbox, False, True, 0)
++        #second_tab_vbox.pack_start(box, False, True, 0)
 +
 +        #
 +        # SELinux switcher
