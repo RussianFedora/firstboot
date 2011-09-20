@@ -3,12 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.119
-Release: 1%{?dist}.2.R
+Version: 16.4
+Release: 1%{?dist}.1.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
+
+Patch0: firstboot-16.4-rfremix.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -16,22 +18,21 @@ ExclusiveOS: Linux
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
+BuildRequires: systemd-units
 Requires: pygtk2, python
 Requires: setuptool, libuser-python, system-config-users, system-config-date
 Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
 Requires: cracklib-python
-Requires: systemd-units
+Requires(post): systemd-units systemd-sysv chkconfig
+Requires(preun): systemd-units
+Requires(postun): systemd-units
 Requires: firstboot(windowmanager)
-Requires(post): chkconfig
 
 %define debug_package %{nil}
 
 Obsoletes: firstboot-tui < 1.90-1
-
-Patch10: firstboot-1.117-rfremix-15.patch
-Patch11: firstboot-1.117-rfr-sudo.patch
 
 %description
 The firstboot utility runs after installation.  It guides the user through
@@ -39,8 +40,7 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
-%patch10 -p1 -b .rfremix-15
-%patch11 -p1 -b .rfr-sudo
+%patch0 -p1 -b .rfremix
 
 %build
 
@@ -55,17 +55,33 @@ rm -rf %{buildroot}
 
 %post
 if [ $1 -ne 2 -a ! -f /etc/sysconfig/firstboot ]; then
-  systemctl enable firstboot-text.service >/dev/null 2>&1 || :
-  systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
+  platform="$(arch)"
+  if [ "$platform" = "s390" -o "$platform" = "s390x" ]; then
+    echo "RUN_FIRSTBOOT=YES" > /etc/sysconfig/firstboot
+  else
+    systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
+  fi
 fi
 
 %preun
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
-  systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
-  systemctl disable firstboot-text.service >/dev/null 2>&1 || :
+  /bin/systemctl --no-reload firstboot-graphical.service > /dev/null 2>&1 || :
+  /bin/systemctl stop firstboot-graphical.service > /dev/null 2>&1 || :
 fi
+
+%postun
+/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    /bin/systemctl try-restart firstboot-graphical.service > /dev/null 2>&1 || :
+fi
+
+%triggerun -- firstboot < 1.117
+%{_bindir}/systemd-sysv-convert --save firstboot > /dev/null 2>&1 ||:
+/bin/systemctl enable firstboot-graphical.service > /dev/null 2>&1
+/sbin/chkconfig --del firstboot > /dev/null 2>&1 || :
+/bin/systemctl try-restart firstboot-graphical.service > /dev/null 2>&1 || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -73,7 +89,6 @@ fi
 %dir %{_datadir}/firstboot/modules/
 %dir %{_datadir}/firstboot/themes/
 %dir %{_datadir}/firstboot/themes/default
-%config %{_initrddir}/firstboot
 %{python_sitelib}/*
 %{_sbindir}/firstboot
 %{_datadir}/firstboot/modules/create_user.py*
@@ -82,36 +97,60 @@ fi
 %{_datadir}/firstboot/modules/rfremix.py*
 %{_datadir}/firstboot/modules/welcome.py*
 %{_datadir}/firstboot/themes/default/*
-/lib/systemd/system/firstboot-text.service
 /lib/systemd/system/firstboot-graphical.service
+%ifarch s390 s390x
+%dir %{_sysconfdir}/profile.d
+%{_sysconfdir}/profile.d/firstboot.sh
+%{_sysconfdir}/profile.d/firstboot.csh
+%endif
+
 
 %changelog
-* Tue Aug 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.119-1.2.R
-- drop ipv6 disable checkbox
+* Tue Sep 20 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4-1.1.R
+- apply rfremix patches
+- drop "disable SELinux" option
 
-* Fri May  6 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.119-1.1.R
-- upfate to 1.119
+* Mon Sep 19 2011 Martin Gracik <mgracik@redhat.com> 16.4-1
+- Do not run firstboot in text mode automatically (#737118)
+- Clear the user entry text fields (#736193)
 
-* Wed May  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.118-1.1.R
-- update to 1.118
+* Wed Sep 07 2011 Martin Gracik <mgracik@redhat.com> 16.3-1
+- Add a firstboot-text wrapper (#734306)
 
-* Sat Apr 16 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.4.R
-- use schemas instead gconf where it needed
+* Mon Sep 05 2011 Martin Gracik <mgracik@redaht.com> 16.2-1
+- Translation updates (#734305)
 
-* Sat Apr 16 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.3.R
-- drop legacy gconf rules
-- drop comments
-- apply gconf rule only if application is present
+* Tue Jul 26 2011 Martin Gracik <mgracik@redhat.com> 16.1-2
+- Enable firstboot after install (#725566)
 
-* Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.2
-- added sudo patch
+* Mon Jul 25 2011 Martin Gracik <mgracik@redhat.com> 16.1-1
+- Don't run firstboot if it's set in /etc/sysconfig/firstboot (#723526)
+- Copy skel files even if the home directory exists (#598957)
 
-* Sat Mar 19 2011 Arkady L. Shane <ashejn@yandex-team.ru> 1.117-2.1
-- RFRemixify
-- added new Eula
-- added rfremix config screens
+* Tue Jul 19 2011 Martin Gracik <mgracik@redhat.com> 16.0-1
+- Honor the tty set by console kernel argument (#701648)
+- Translation updates
 
-* Fri Feb 25 2011 Brian C. Lane <bcl@redhat.com> 1.117-2
+* Tue Jul 19 2011 Martin Gracik <mgracik@redhat.com> 1.118-1
+- Get UID_MIN from /etc/login.defs (#717113)
+- Drop SysV support (Jóhann B. Guðmundsson) (#714668)
+- Fix firstboot-text.service (#696320)
+- Fix firstboot for s390 architecture (#463564)
+- Set the theme directory
+- Changes to systemd service files
+- Save exception to a file
+- Remove init file from the spec
+- New systemd service files
+- Remove old init from setup
+- Remove the old init
+- Use the new loader in moduleset
+- Rewritten the firstboot executable
+- Added reconfig property to module and moduleset
+- Added new constants
+- Rewritten frontend
+- Rewritten loader
+- Update systemd config to prevent tty conflict (#681292)
+- Fix username guessing
 - We need to quit plymouth before running firstboot (#679171)
 
 * Fri Feb 18 2011 Martin Gracik <mgracik@redhat.com> 1.117-1
