@@ -3,12 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 1.114
-Release: 1%{?dist}
+Version: 1.110.10
+Release: 1%{?dist}.1.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
+Patch1: %{name}-%{version}-rer-sudo.patch
+Patch2: %{name}-%{version}-reremix.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -16,14 +18,11 @@ ExclusiveOS: Linux
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
-Requires: pygtk2, python
+Requires: metacity, pygtk2, python
 Requires: setuptool, libuser-python, system-config-users, system-config-date
 Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
-Requires: cracklib-python
-Requires: systemd-units
-Requires: firstboot(windowmanager)
 Requires(post): chkconfig
 
 %define debug_package %{nil}
@@ -36,6 +35,8 @@ a series of steps that allows for easier configuration of the machine.
 
 %prep
 %setup -q
+%patch1 -p1 -b .rer-sudo
+%patch2 -p1 -b .reremix-module
 
 %build
 
@@ -49,17 +50,20 @@ rm %{buildroot}/%{_datadir}/firstboot/modules/additional_cds.py*
 rm -rf %{buildroot}
 
 %post
-if ! [ -f /etc/sysconfig/firstboot ]; then
-  systemctl enable firstboot-text.service >/dev/null 2>&1 || :
-  systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
+if [ ! -f /etc/sysconfig/firstboot ]; then
+  platform="$(arch)"
+  if [ "$platform" = "s390" -o "$platform" = "s390x" ]; then
+    echo "RUN_FIRSTBOOT=YES" > /etc/sysconfig/firstboot
+  else
+    chkconfig --add firstboot
+  fi
 fi
 
 %preun
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
-  systemctl disable firstboot-graphical.service >/dev/null 2>&1 || :
-  systemctl disable firstboot-text.service >/dev/null 2>&1 || :
+  chkconfig --del firstboot
 fi
 
 %files -f %{name}.lang
@@ -75,52 +79,60 @@ fi
 %{_datadir}/firstboot/modules/date.py*
 %{_datadir}/firstboot/modules/eula.py*
 %{_datadir}/firstboot/modules/welcome.py*
+%{_datadir}/firstboot/modules/rootpassword.py*
+%{_datadir}/firstboot/modules/reremix.py*
 %{_datadir}/firstboot/themes/default/*
-/lib/systemd/system/firstboot-text.service
-/lib/systemd/system/firstboot-graphical.service
+%ifarch s390 s390x
+%dir %{_sysconfdir}/profile.d
+%{_sysconfdir}/profile.d/firstboot.sh
+%{_sysconfdir}/profile.d/firstboot.csh
+%endif
+
 
 %changelog
-* Mon Dec 20 2010 Martin Gracik <mgracik@redhat.com> 1.114-1
-- Support other window managers than metacity (#605675)
-- firstboot -> metacity dep (#605675) (rdieter)
-- Change how we check for user account
-- Use StrengthMeter widget instead of ProgressBar
-- Add StrengthMeter widget to pwcheck
-- Increase the weight of cracklib password check
-- Show the password strength in a progress bar
-- Add strength fraction property to pwcheck
-- Translation updates
-- Change the way we warn for a weak password
-- Add the pwcheck module for getting the password strength
-- Do not show tabs in date and time module
-- Allow the user to be added to wheel group (#462161)
-- Guess user name from full name (#517269)
+* Fri Oct 28 2011 Alexei Panov <me AT elemc DOT name> - 1.110.10-1.1.R
+- Added sudo and RERemix patches
 
-* Thu Aug 26 2010 Martin Gracik <mgracik@redhat.com> 1.113-1
-- Updated the .pot file
-- Changed string formatting for translations (#618610)
-- Syntax changed in new systemd
-- Make sure we start before tty1 in text mode
-- Don't use the legacy sysv services anymore
+* Thu Dec 16 2010 Martin Gracik <mgracik@redhat.com> 1.110.10-1
+- Added rootpassword module to spec file
+- Related: rhbz#658869
+
+* Thu Dec 16 2010 Martin Gracik <mgracik@redhat.com> 1.110.9-1
+- Fix firstboot for s390 architecture (#463564)
+- Change how we check for user account (#659451)
+- Add a module for setting up root password (#658869)
 - Translation updates
 
-* Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.112-1
-- Add systemd support (adamw)
-- Translation updates
+* Tue Aug 10 2010 Martin Gracik <mgracik@redhat.com> 1.110.8-1
+- Translation updates (#567509)
 
-* Thu Jul 15 2010 Martin Gracik <mgracik@redhat.com> 1.111-1
-- Fixed indenting
+* Tue Aug 03 2010 Martin Gracik <mgracik@redhat.com> 1.110.7-1
+- Translation updates (#618610)
+
+* Mon Jul 26 2010 Martin Gracik <mgracik@redhat.com> 1.110.6-1
+- Translation updates (#552158)
+
+* Fri Jun 18 2010 Martin Gracik <mgracik@redhat.com> 1.110.5-1
 - Set the LANG variable if running our own X frontend (#599296)
-- Added the spec file obsoletes version number
-- Add requirement for cracklib-python
 - Allow more control when creating new user (#602030)
+
+* Tue May 25 2010 Martin Gracik <mgracik@redhat.com> 1.110.4-1
 - Fix functioning of module sets (#595320)
-- Don't try to use the X frontend when run in console (#537717)
-- Update to work with new python-meh with report support (#562659)
-- Add weak password checking (#612362)
+- Translation updates
+
+* Fri May 14 2010 Martin Gracik <mgracik@redhat.com> 1.110.3-1
+- Translation updates (#552158)
+
+* Tue May 04 2010 Martin Gracik <mgracik@redhat.com> 1.110.2-1
 - Source the lang.sh file instead of just i18n (#563547)
-- Run Xorg with -nr option, so we have less flicker (ajax)
-- Many translation updates
+- Don't try to use the X frontend when run in console (#537717)
+- Fixed the eula module to show Red Hat license (#563734)
+
+* Tue Apr 13 2010 Martin Gracik <mgracik@redhat.com> 1.110.1-1
+- Update to work with new python-meh with report support (#562659).
+
+* Fri Mar 26 2010 Martin Gracik <mgracik@redhat.com> 1.110-2
+- Added the firstboot-tui version to spec file Obsoletes section (#577821).
 
 * Wed Oct 14 2009 Chris Lumens <clumens@redhat.com> 1.110-1
 - Always attempt to display the Fedora logo, if present (jmccann).
