@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 1.110.10
-Release: 1%{?dist}.1.R
+Release: 1%{?dist}.2.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -90,6 +90,10 @@ fi
 
 
 %changelog
+* Sat Oct 29 2011 Arkady L. Shane <ashejn@russianfedora.ru> - 1.110.10-1.2.R
+- update Russian translation
+- drop old items in reremix.py
+
 * Fri Oct 28 2011 Alexei Panov <me AT elemc DOT name> - 1.110.10-1.1.R
 - Added sudo and RERemix patches
 
