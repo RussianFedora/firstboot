@@ -1,20 +1,18 @@
-diff -urN firstboot-16.4.orig/modules/create_user.py firstboot-16.4/modules/create_user.py
---- firstboot-16.4.orig/modules/create_user.py	2011-09-20 13:35:59.652477952 +0400
-+++ firstboot-16.4/modules/create_user.py	2011-09-20 13:40:15.941251426 +0400
-@@ -274,11 +274,26 @@
+diff -uNdr firstboot-16.4.orig/modules/create_user.py firstboot-16.4/modules/create_user.py
+--- firstboot-16.4.orig/modules/create_user.py	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/modules/create_user.py	2012-01-22 23:02:46.810899277 +0400
+@@ -274,12 +274,27 @@
  
          self.admin.setpassUser(userEnt, self.passwordEntry.get_text(), 0)
  
 -        # add user to wheel group
--        if self.is_admin.get_active():
 +        # add user to wheel group # hacked by Russian Fedora ;)
-+        '''if self.is_admin.get_active():
+         if self.is_admin.get_active():
              wheelEnt = self.admin.lookupGroupByName("wheel")
              wheelEnt.add(libuser.MEMBERNAME, username)
--            self.admin.modifyGroup(wheelEnt)
-+            self.admin.modifyGroup(wheelEnt)'''
-+
-+        # FIXME: elemc: Her is radiobutton active states
+             self.admin.modifyGroup(wheelEnt)
+ 
++        # FIXME: elemc: Here is radiobutton active states
 +
 +        if self.ch1.get_active() == 0:
 +            pass
@@ -28,9 +26,10 @@ diff -urN firstboot-16.4.orig/modules/create_user.py firstboot-16.4/modules/crea
 +
 +            sudo_hood.close()
 +            os.chmod(sudo_hook_name, 0440)
- 
++
          return RESULT_SUCCESS
  
+     def createScreen(self):
 @@ -320,7 +335,7 @@
  
          self.vbox.pack_start(label, False, True)
@@ -40,13 +39,10 @@ diff -urN firstboot-16.4.orig/modules/create_user.py firstboot-16.4/modules/crea
          table.set_row_spacings(6)
          table.set_col_spacings(6)
  
-@@ -355,9 +370,12 @@
-         table.attach(self.strengthLabel, 2, 3, 2, 3, gtk.FILL)
-         table.attach(self.confirmIcon, 2, 3, 3, 4, gtk.FILL)
- 
--        self.is_admin = gtk.CheckButton(_("Add to Administrators group"))
--        self.is_admin.set_alignment(0.0, 0.5)
--        table.attach(self.is_admin, 2, 3, 1, 2, gtk.FILL)
+@@ -358,6 +373,12 @@
+         self.is_admin = gtk.CheckButton(_("Add to Administrators group"))
+         self.is_admin.set_alignment(0.0, 0.5)
+         table.attach(self.is_admin, 2, 3, 1, 2, gtk.FILL)
 +        self.ch1 = gtk.combo_box_new_text()
 +        self.ch1.append_text( _('Don\'t use sudo') )
 +        self.ch1.append_text( _('Use sudo with password prompt') )
@@ -56,9 +52,9 @@ diff -urN firstboot-16.4.orig/modules/create_user.py firstboot-16.4/modules/crea
  
          self.vbox.pack_start(table, False)
  
-diff -urN firstboot-16.4.orig/modules/date.py firstboot-16.4/modules/date.py
---- firstboot-16.4.orig/modules/date.py	2011-09-20 13:35:59.653477971 +0400
-+++ firstboot-16.4/modules/date.py	2011-09-20 13:41:46.597939606 +0400
+diff -uNdr firstboot-16.4.orig/modules/date.py firstboot-16.4/modules/date.py
+--- firstboot-16.4.orig/modules/date.py	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/modules/date.py	2012-01-22 22:57:43.430658565 +0400
 @@ -35,7 +35,7 @@
  class moduleClass(Module):
      def __init__(self):
@@ -68,9 +64,9 @@ diff -urN firstboot-16.4.orig/modules/date.py firstboot-16.4/modules/date.py
          self.sidebarTitle = N_("Date and Time")
          self.title = N_("Date and Time")
          self.icon = "system-config-date.png"
-diff -urN firstboot-16.4.orig/modules/eula.py firstboot-16.4/modules/eula.py
---- firstboot-16.4.orig/modules/eula.py	2011-09-20 13:35:59.653477971 +0400
-+++ firstboot-16.4/modules/eula.py	2011-09-20 13:42:24.439644423 +0400
+diff -uNdr firstboot-16.4.orig/modules/eula.py firstboot-16.4/modules/eula.py
+--- firstboot-16.4.orig/modules/eula.py	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/modules/eula.py	2012-01-22 22:57:43.431619295 +0400
 @@ -42,7 +42,7 @@
      def createScreen(self):
          self.vbox = gtk.VBox(spacing=10)
@@ -89,9 +85,9 @@ diff -urN firstboot-16.4.orig/modules/eula.py firstboot-16.4/modules/eula.py
          label.set_line_wrap(True)
          label.set_alignment(0.0, 0.0)
          label.set_size_request(500, -1)
-diff -urN firstboot-16.4.orig/modules/rfremix.py firstboot-16.4/modules/rfremix.py
+diff -uNdr firstboot-16.4.orig/modules/rfremix.py firstboot-16.4/modules/rfremix.py
 --- firstboot-16.4.orig/modules/rfremix.py	1970-01-01 03:00:00.000000000 +0300
-+++ firstboot-16.4/modules/rfremix.py	2011-09-20 13:47:20.357155017 +0400
++++ firstboot-16.4/modules/rfremix.py	2012-01-22 22:57:43.431619295 +0400
 @@ -0,0 +1,260 @@
 +# -*- coding: utf-8 -*-
 +#
@@ -353,9 +349,9 @@ diff -urN firstboot-16.4.orig/modules/rfremix.py firstboot-16.4/modules/rfremix.
 +        
 +    def initializeUI(self):
 +        pass
-diff -urN firstboot-16.4.orig/po/af.po firstboot-16.4/po/af.po
---- firstboot-16.4.orig/po/af.po	2011-09-20 13:35:59.637477673 +0400
-+++ firstboot-16.4/po/af.po	2011-09-20 13:44:58.545514258 +0400
+diff -uNdr firstboot-16.4.orig/po/af.po firstboot-16.4/po/af.po
+--- firstboot-16.4.orig/po/af.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/af.po	2012-01-22 22:57:43.431619295 +0400
 @@ -278,9 +278,9 @@
  
  #: ../modules/eula.py:45
@@ -368,9 +364,9 @@ diff -urN firstboot-16.4.orig/po/af.po firstboot-16.4/po/af.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/aln.po firstboot-16.4/po/aln.po
---- firstboot-16.4.orig/po/aln.po	2011-09-20 13:35:59.630477543 +0400
-+++ firstboot-16.4/po/aln.po	2011-09-20 13:44:58.547514296 +0400
+diff -uNdr firstboot-16.4.orig/po/aln.po firstboot-16.4/po/aln.po
+--- firstboot-16.4.orig/po/aln.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/aln.po	2012-01-22 22:57:43.432580025 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -383,9 +379,9 @@ diff -urN firstboot-16.4.orig/po/aln.po firstboot-16.4/po/aln.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/am.po firstboot-16.4/po/am.po
---- firstboot-16.4.orig/po/am.po	2011-09-20 13:35:59.629477524 +0400
-+++ firstboot-16.4/po/am.po	2011-09-20 13:44:58.548514315 +0400
+diff -uNdr firstboot-16.4.orig/po/am.po firstboot-16.4/po/am.po
+--- firstboot-16.4.orig/po/am.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/am.po	2012-01-22 22:57:43.432580025 +0400
 @@ -275,9 +275,9 @@
  
  #: ../modules/eula.py:45
@@ -398,9 +394,9 @@ diff -urN firstboot-16.4.orig/po/am.po firstboot-16.4/po/am.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/ar.po firstboot-16.4/po/ar.po
---- firstboot-16.4.orig/po/ar.po	2011-09-20 13:35:59.645477822 +0400
-+++ firstboot-16.4/po/ar.po	2011-09-20 13:44:58.549514334 +0400
+diff -uNdr firstboot-16.4.orig/po/ar.po firstboot-16.4/po/ar.po
+--- firstboot-16.4.orig/po/ar.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ar.po	2012-01-22 22:57:43.443148052 +0400
 @@ -298,13 +298,13 @@
  
  #: ../modules/eula.py:45
@@ -418,9 +414,9 @@ diff -urN firstboot-16.4.orig/po/ar.po firstboot-16.4/po/ar.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/as.po firstboot-16.4/po/as.po
---- firstboot-16.4.orig/po/as.po	2011-09-20 13:35:59.623477413 +0400
-+++ firstboot-16.4/po/as.po	2011-09-20 13:44:58.550514352 +0400
+diff -uNdr firstboot-16.4.orig/po/as.po firstboot-16.4/po/as.po
+--- firstboot-16.4.orig/po/as.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/as.po	2012-01-22 22:57:43.443148052 +0400
 @@ -307,13 +307,13 @@
  
  #: ../modules/eula.py:45
@@ -439,9 +435,9 @@ diff -urN firstboot-16.4.orig/po/as.po firstboot-16.4/po/as.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ast.po firstboot-16.4/po/ast.po
---- firstboot-16.4.orig/po/ast.po	2011-09-20 13:35:59.638477692 +0400
-+++ firstboot-16.4/po/ast.po	2011-09-20 13:44:58.551514370 +0400
+diff -uNdr firstboot-16.4.orig/po/ast.po firstboot-16.4/po/ast.po
+--- firstboot-16.4.orig/po/ast.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ast.po	2012-01-22 22:57:43.445069511 +0400
 @@ -301,13 +301,13 @@
  
  #: ../modules/eula.py:45
@@ -460,9 +456,9 @@ diff -urN firstboot-16.4.orig/po/ast.po firstboot-16.4/po/ast.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/bal.po firstboot-16.4/po/bal.po
---- firstboot-16.4.orig/po/bal.po	2011-09-20 13:35:59.631477562 +0400
-+++ firstboot-16.4/po/bal.po	2011-09-20 13:44:58.552514388 +0400
+diff -uNdr firstboot-16.4.orig/po/bal.po firstboot-16.4/po/bal.po
+--- firstboot-16.4.orig/po/bal.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bal.po	2012-01-22 22:57:43.445069511 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -475,9 +471,9 @@ diff -urN firstboot-16.4.orig/po/bal.po firstboot-16.4/po/bal.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/be.po firstboot-16.4/po/be.po
---- firstboot-16.4.orig/po/be.po	2011-09-20 13:35:59.628477505 +0400
-+++ firstboot-16.4/po/be.po	2011-09-20 13:44:58.553514407 +0400
+diff -uNdr firstboot-16.4.orig/po/be.po firstboot-16.4/po/be.po
+--- firstboot-16.4.orig/po/be.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/be.po	2012-01-22 22:57:43.445069511 +0400
 @@ -275,9 +275,9 @@
  
  #: ../modules/eula.py:45
@@ -490,9 +486,9 @@ diff -urN firstboot-16.4.orig/po/be.po firstboot-16.4/po/be.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/bg.po firstboot-16.4/po/bg.po
---- firstboot-16.4.orig/po/bg.po	2011-09-20 13:35:59.622477394 +0400
-+++ firstboot-16.4/po/bg.po	2011-09-20 13:44:58.554514426 +0400
+diff -uNdr firstboot-16.4.orig/po/bg.po firstboot-16.4/po/bg.po
+--- firstboot-16.4.orig/po/bg.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bg.po	2012-01-22 22:57:43.446030241 +0400
 @@ -313,13 +313,13 @@
  
  #: ../modules/eula.py:45
@@ -511,9 +507,9 @@ diff -urN firstboot-16.4.orig/po/bg.po firstboot-16.4/po/bg.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/bn_BD.po firstboot-16.4/po/bn_BD.po
---- firstboot-16.4.orig/po/bn_BD.po	2011-09-20 13:35:59.640477730 +0400
-+++ firstboot-16.4/po/bn_BD.po	2011-09-20 13:44:58.555514445 +0400
+diff -uNdr firstboot-16.4.orig/po/bn_BD.po firstboot-16.4/po/bn_BD.po
+--- firstboot-16.4.orig/po/bn_BD.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bn_BD.po	2012-01-22 22:57:43.446030241 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -526,9 +522,9 @@ diff -urN firstboot-16.4.orig/po/bn_BD.po firstboot-16.4/po/bn_BD.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/bn_IN.po firstboot-16.4/po/bn_IN.po
---- firstboot-16.4.orig/po/bn_IN.po	2011-09-20 13:35:59.642477766 +0400
-+++ firstboot-16.4/po/bn_IN.po	2011-09-20 13:44:58.556514464 +0400
+diff -uNdr firstboot-16.4.orig/po/bn_IN.po firstboot-16.4/po/bn_IN.po
+--- firstboot-16.4.orig/po/bn_IN.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bn_IN.po	2012-01-22 22:57:43.446990971 +0400
 @@ -316,13 +316,13 @@
  
  #: ../modules/eula.py:45
@@ -547,9 +543,9 @@ diff -urN firstboot-16.4.orig/po/bn_IN.po firstboot-16.4/po/bn_IN.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/bn.po firstboot-16.4/po/bn.po
---- firstboot-16.4.orig/po/bn.po	2011-09-20 13:35:59.617477301 +0400
-+++ firstboot-16.4/po/bn.po	2011-09-20 13:44:58.557514483 +0400
+diff -uNdr firstboot-16.4.orig/po/bn.po firstboot-16.4/po/bn.po
+--- firstboot-16.4.orig/po/bn.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bn.po	2012-01-22 22:57:43.448912430 +0400
 @@ -287,9 +287,9 @@
  
  #: ../modules/eula.py:45
@@ -562,9 +558,9 @@ diff -urN firstboot-16.4.orig/po/bn.po firstboot-16.4/po/bn.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/bs.po firstboot-16.4/po/bs.po
---- firstboot-16.4.orig/po/bs.po	2011-09-20 13:35:59.619477337 +0400
-+++ firstboot-16.4/po/bs.po	2011-09-20 13:44:58.558514501 +0400
+diff -uNdr firstboot-16.4.orig/po/bs.po firstboot-16.4/po/bs.po
+--- firstboot-16.4.orig/po/bs.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/bs.po	2012-01-22 22:57:43.449873160 +0400
 @@ -284,9 +284,9 @@
  
  #: ../modules/eula.py:45
@@ -577,9 +573,9 @@ diff -urN firstboot-16.4.orig/po/bs.po firstboot-16.4/po/bs.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/ca.po firstboot-16.4/po/ca.po
---- firstboot-16.4.orig/po/ca.po	2011-09-20 13:35:59.649477897 +0400
-+++ firstboot-16.4/po/ca.po	2011-09-20 13:44:58.559514519 +0400
+diff -uNdr firstboot-16.4.orig/po/ca.po firstboot-16.4/po/ca.po
+--- firstboot-16.4.orig/po/ca.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ca.po	2012-01-22 22:57:43.449873160 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -598,9 +594,9 @@ diff -urN firstboot-16.4.orig/po/ca.po firstboot-16.4/po/ca.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/cs_CZ.po firstboot-16.4/po/cs_CZ.po
---- firstboot-16.4.orig/po/cs_CZ.po	2011-09-20 13:35:59.651477933 +0400
-+++ firstboot-16.4/po/cs_CZ.po	2011-09-20 13:44:58.561514556 +0400
+diff -uNdr firstboot-16.4.orig/po/cs_CZ.po firstboot-16.4/po/cs_CZ.po
+--- firstboot-16.4.orig/po/cs_CZ.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/cs_CZ.po	2012-01-22 22:57:43.449873160 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -613,9 +609,9 @@ diff -urN firstboot-16.4.orig/po/cs_CZ.po firstboot-16.4/po/cs_CZ.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/cs.po firstboot-16.4/po/cs.po
---- firstboot-16.4.orig/po/cs.po	2011-09-20 13:35:59.643477784 +0400
-+++ firstboot-16.4/po/cs.po	2011-09-20 13:44:58.562514575 +0400
+diff -uNdr firstboot-16.4.orig/po/cs.po firstboot-16.4/po/cs.po
+--- firstboot-16.4.orig/po/cs.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/cs.po	2012-01-22 22:57:43.451794620 +0400
 @@ -301,13 +301,13 @@
  
  #: ../modules/eula.py:45
@@ -634,9 +630,9 @@ diff -urN firstboot-16.4.orig/po/cs.po firstboot-16.4/po/cs.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/cy.po firstboot-16.4/po/cy.po
---- firstboot-16.4.orig/po/cy.po	2011-09-20 13:35:59.639477711 +0400
-+++ firstboot-16.4/po/cy.po	2011-09-20 13:44:58.563514594 +0400
+diff -uNdr firstboot-16.4.orig/po/cy.po firstboot-16.4/po/cy.po
+--- firstboot-16.4.orig/po/cy.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/cy.po	2012-01-22 22:57:43.451794620 +0400
 @@ -287,9 +287,9 @@
  
  #: ../modules/eula.py:45
@@ -649,9 +645,9 @@ diff -urN firstboot-16.4.orig/po/cy.po firstboot-16.4/po/cy.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/da.po firstboot-16.4/po/da.po
---- firstboot-16.4.orig/po/da.po	2011-09-20 13:35:59.637477673 +0400
-+++ firstboot-16.4/po/da.po	2011-09-20 13:44:58.564514613 +0400
+diff -uNdr firstboot-16.4.orig/po/da.po firstboot-16.4/po/da.po
+--- firstboot-16.4.orig/po/da.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/da.po	2012-01-22 22:57:43.452755350 +0400
 @@ -311,13 +311,13 @@
  
  #: ../modules/eula.py:45
@@ -670,9 +666,9 @@ diff -urN firstboot-16.4.orig/po/da.po firstboot-16.4/po/da.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/de_CH.po firstboot-16.4/po/de_CH.po
---- firstboot-16.4.orig/po/de_CH.po	2011-09-20 13:35:59.630477543 +0400
-+++ firstboot-16.4/po/de_CH.po	2011-09-20 13:44:58.565514632 +0400
+diff -uNdr firstboot-16.4.orig/po/de_CH.po firstboot-16.4/po/de_CH.po
+--- firstboot-16.4.orig/po/de_CH.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/de_CH.po	2012-01-22 22:57:43.458519730 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -685,9 +681,9 @@ diff -urN firstboot-16.4.orig/po/de_CH.po firstboot-16.4/po/de_CH.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/de.po firstboot-16.4/po/de.po
---- firstboot-16.4.orig/po/de.po	2011-09-20 13:35:59.638477692 +0400
-+++ firstboot-16.4/po/de.po	2011-09-20 13:44:58.567514668 +0400
+diff -uNdr firstboot-16.4.orig/po/de.po firstboot-16.4/po/de.po
+--- firstboot-16.4.orig/po/de.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/de.po	2012-01-22 22:57:43.460441190 +0400
 @@ -328,13 +328,13 @@
  
  #: ../modules/eula.py:45
@@ -706,9 +702,9 @@ diff -urN firstboot-16.4.orig/po/de.po firstboot-16.4/po/de.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/el.po firstboot-16.4/po/el.po
---- firstboot-16.4.orig/po/el.po	2011-09-20 13:35:59.627477486 +0400
-+++ firstboot-16.4/po/el.po	2011-09-20 13:44:58.568514686 +0400
+diff -uNdr firstboot-16.4.orig/po/el.po firstboot-16.4/po/el.po
+--- firstboot-16.4.orig/po/el.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/el.po	2012-01-22 22:57:43.461401920 +0400
 @@ -324,13 +324,13 @@
  
  #: ../modules/eula.py:45
@@ -727,9 +723,9 @@ diff -urN firstboot-16.4.orig/po/el.po firstboot-16.4/po/el.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/en_GB.po firstboot-16.4/po/en_GB.po
---- firstboot-16.4.orig/po/en_GB.po	2011-09-20 13:35:59.635477635 +0400
-+++ firstboot-16.4/po/en_GB.po	2011-09-20 13:44:58.569514705 +0400
+diff -uNdr firstboot-16.4.orig/po/en_GB.po firstboot-16.4/po/en_GB.po
+--- firstboot-16.4.orig/po/en_GB.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/en_GB.po	2012-01-22 22:57:43.461401920 +0400
 @@ -308,11 +308,11 @@
  
  #: ../modules/eula.py:45
@@ -745,9 +741,9 @@ diff -urN firstboot-16.4.orig/po/en_GB.po firstboot-16.4/po/en_GB.po
  "\n"
  "If you would like to understand what those restrictions are, please visit http://fedoraproject.org/wiki/Legal/Licences/LicenseAgreement."
  
-diff -urN firstboot-16.4.orig/po/es_ES.po firstboot-16.4/po/es_ES.po
---- firstboot-16.4.orig/po/es_ES.po	2011-09-20 13:35:59.625477450 +0400
-+++ firstboot-16.4/po/es_ES.po	2011-09-20 13:44:58.570514724 +0400
+diff -uNdr firstboot-16.4.orig/po/es_ES.po firstboot-16.4/po/es_ES.po
+--- firstboot-16.4.orig/po/es_ES.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/es_ES.po	2012-01-22 22:57:43.462362650 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -760,9 +756,9 @@ diff -urN firstboot-16.4.orig/po/es_ES.po firstboot-16.4/po/es_ES.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/es.po firstboot-16.4/po/es.po
---- firstboot-16.4.orig/po/es.po	2011-09-20 13:35:59.632477581 +0400
-+++ firstboot-16.4/po/es.po	2011-09-20 13:44:58.571514743 +0400
+diff -uNdr firstboot-16.4.orig/po/es.po firstboot-16.4/po/es.po
+--- firstboot-16.4.orig/po/es.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/es.po	2012-01-22 22:57:43.462362650 +0400
 @@ -313,13 +313,13 @@
  
  #: ../modules/eula.py:45
@@ -781,9 +777,9 @@ diff -urN firstboot-16.4.orig/po/es.po firstboot-16.4/po/es.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/et.po firstboot-16.4/po/et.po
---- firstboot-16.4.orig/po/et.po	2011-09-20 13:35:59.642477766 +0400
-+++ firstboot-16.4/po/et.po	2011-09-20 13:44:58.572514762 +0400
+diff -uNdr firstboot-16.4.orig/po/et.po firstboot-16.4/po/et.po
+--- firstboot-16.4.orig/po/et.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/et.po	2012-01-22 22:57:43.463323380 +0400
 @@ -303,13 +303,13 @@
  
  #: ../modules/eula.py:45
@@ -802,9 +798,9 @@ diff -urN firstboot-16.4.orig/po/et.po firstboot-16.4/po/et.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/fa_IR.po firstboot-16.4/po/fa_IR.po
---- firstboot-16.4.orig/po/fa_IR.po	2011-09-20 13:35:59.647477860 +0400
-+++ firstboot-16.4/po/fa_IR.po	2011-09-20 13:44:58.573514781 +0400
+diff -uNdr firstboot-16.4.orig/po/fa_IR.po firstboot-16.4/po/fa_IR.po
+--- firstboot-16.4.orig/po/fa_IR.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/fa_IR.po	2012-01-22 22:57:43.463323380 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -817,9 +813,9 @@ diff -urN firstboot-16.4.orig/po/fa_IR.po firstboot-16.4/po/fa_IR.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/fa.po firstboot-16.4/po/fa.po
---- firstboot-16.4.orig/po/fa.po	2011-09-20 13:35:59.633477599 +0400
-+++ firstboot-16.4/po/fa.po	2011-09-20 13:44:58.574514799 +0400
+diff -uNdr firstboot-16.4.orig/po/fa.po firstboot-16.4/po/fa.po
+--- firstboot-16.4.orig/po/fa.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/fa.po	2012-01-22 22:57:43.464284110 +0400
 @@ -310,13 +310,13 @@
  
  #: ../modules/eula.py:45
@@ -837,9 +833,9 @@ diff -urN firstboot-16.4.orig/po/fa.po firstboot-16.4/po/fa.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/fi.po firstboot-16.4/po/fi.po
---- firstboot-16.4.orig/po/fi.po	2011-09-20 13:35:59.631477562 +0400
-+++ firstboot-16.4/po/fi.po	2011-09-20 13:44:58.575514817 +0400
+diff -uNdr firstboot-16.4.orig/po/fi.po firstboot-16.4/po/fi.po
+--- firstboot-16.4.orig/po/fi.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/fi.po	2012-01-22 22:57:43.464284110 +0400
 @@ -306,13 +306,13 @@
  
  #: ../modules/eula.py:45
@@ -858,9 +854,9 @@ diff -urN firstboot-16.4.orig/po/fi.po firstboot-16.4/po/fi.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/fr.po firstboot-16.4/po/fr.po
---- firstboot-16.4.orig/po/fr.po	2011-09-20 13:35:59.641477748 +0400
-+++ firstboot-16.4/po/fr.po	2011-09-20 13:44:58.576514835 +0400
+diff -uNdr firstboot-16.4.orig/po/fr.po firstboot-16.4/po/fr.po
+--- firstboot-16.4.orig/po/fr.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/fr.po	2012-01-22 22:57:43.465244840 +0400
 @@ -331,13 +331,13 @@
  
  #: ../modules/eula.py:45
@@ -879,9 +875,9 @@ diff -urN firstboot-16.4.orig/po/fr.po firstboot-16.4/po/fr.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/gl.po firstboot-16.4/po/gl.po
---- firstboot-16.4.orig/po/gl.po	2011-09-20 13:35:59.648477879 +0400
-+++ firstboot-16.4/po/gl.po	2011-09-20 13:44:58.577514854 +0400
+diff -uNdr firstboot-16.4.orig/po/gl.po firstboot-16.4/po/gl.po
+--- firstboot-16.4.orig/po/gl.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/gl.po	2012-01-22 22:57:43.465244840 +0400
 @@ -274,9 +274,9 @@
  
  #: ../modules/eula.py:45
@@ -894,9 +890,9 @@ diff -urN firstboot-16.4.orig/po/gl.po firstboot-16.4/po/gl.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/gu.po firstboot-16.4/po/gu.po
---- firstboot-16.4.orig/po/gu.po	2011-09-20 13:35:59.646477841 +0400
-+++ firstboot-16.4/po/gu.po	2011-09-20 13:44:58.579514892 +0400
+diff -uNdr firstboot-16.4.orig/po/gu.po firstboot-16.4/po/gu.po
+--- firstboot-16.4.orig/po/gu.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/gu.po	2012-01-22 22:57:43.466205570 +0400
 @@ -310,13 +310,13 @@
  
  #: ../modules/eula.py:45
@@ -915,9 +911,9 @@ diff -urN firstboot-16.4.orig/po/gu.po firstboot-16.4/po/gu.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/he.po firstboot-16.4/po/he.po
---- firstboot-16.4.orig/po/he.po	2011-09-20 13:35:59.644477803 +0400
-+++ firstboot-16.4/po/he.po	2011-09-20 13:44:58.580514911 +0400
+diff -uNdr firstboot-16.4.orig/po/he.po firstboot-16.4/po/he.po
+--- firstboot-16.4.orig/po/he.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/he.po	2012-01-22 22:57:43.466205570 +0400
 @@ -294,9 +294,9 @@
  
  #: ../modules/eula.py:45
@@ -939,9 +935,9 @@ diff -urN firstboot-16.4.orig/po/he.po firstboot-16.4/po/he.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/hi.po firstboot-16.4/po/hi.po
---- firstboot-16.4.orig/po/hi.po	2011-09-20 13:35:59.623477413 +0400
-+++ firstboot-16.4/po/hi.po	2011-09-20 13:44:58.581514930 +0400
+diff -uNdr firstboot-16.4.orig/po/hi.po firstboot-16.4/po/hi.po
+--- firstboot-16.4.orig/po/hi.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/hi.po	2012-01-22 22:57:43.467166300 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -960,9 +956,9 @@ diff -urN firstboot-16.4.orig/po/hi.po firstboot-16.4/po/hi.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/hr.po firstboot-16.4/po/hr.po
---- firstboot-16.4.orig/po/hr.po	2011-09-20 13:35:59.650477915 +0400
-+++ firstboot-16.4/po/hr.po	2011-09-20 13:44:58.582514948 +0400
+diff -uNdr firstboot-16.4.orig/po/hr.po firstboot-16.4/po/hr.po
+--- firstboot-16.4.orig/po/hr.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/hr.po	2012-01-22 22:57:43.467166300 +0400
 @@ -284,13 +284,13 @@
  
  #: ../modules/eula.py:45
@@ -981,9 +977,9 @@ diff -urN firstboot-16.4.orig/po/hr.po firstboot-16.4/po/hr.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/hu.po firstboot-16.4/po/hu.po
---- firstboot-16.4.orig/po/hu.po	2011-09-20 13:35:59.627477486 +0400
-+++ firstboot-16.4/po/hu.po	2011-09-20 13:44:58.583514966 +0400
+diff -uNdr firstboot-16.4.orig/po/hu.po firstboot-16.4/po/hu.po
+--- firstboot-16.4.orig/po/hu.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/hu.po	2012-01-22 22:57:43.469087759 +0400
 @@ -316,13 +316,13 @@
  
  #: ../modules/eula.py:45
@@ -1002,9 +998,9 @@ diff -urN firstboot-16.4.orig/po/hu.po firstboot-16.4/po/hu.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/hy.po firstboot-16.4/po/hy.po
---- firstboot-16.4.orig/po/hy.po	2011-09-20 13:35:59.643477784 +0400
-+++ firstboot-16.4/po/hy.po	2011-09-20 13:44:58.584514984 +0400
+diff -uNdr firstboot-16.4.orig/po/hy.po firstboot-16.4/po/hy.po
+--- firstboot-16.4.orig/po/hy.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/hy.po	2012-01-22 22:57:43.470048489 +0400
 @@ -281,9 +281,9 @@
  
  #: ../modules/eula.py:45
@@ -1017,9 +1013,9 @@ diff -urN firstboot-16.4.orig/po/hy.po firstboot-16.4/po/hy.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/id.po firstboot-16.4/po/id.po
---- firstboot-16.4.orig/po/id.po	2011-09-20 13:35:59.618477319 +0400
-+++ firstboot-16.4/po/id.po	2011-09-20 13:44:58.585515003 +0400
+diff -uNdr firstboot-16.4.orig/po/id.po firstboot-16.4/po/id.po
+--- firstboot-16.4.orig/po/id.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/id.po	2012-01-22 22:57:43.470048489 +0400
 @@ -309,11 +309,11 @@
  
  #: ../modules/eula.py:45
@@ -1035,9 +1031,9 @@ diff -urN firstboot-16.4.orig/po/id.po firstboot-16.4/po/id.po
  "\n"
  "Jika anda ingin memahami apa saja laranganya, silakan kunjungi http://fedoraproject.org/wiki/Legal/Lecenses/LicenseAgreement."
  
-diff -urN firstboot-16.4.orig/po/ilo.po firstboot-16.4/po/ilo.po
---- firstboot-16.4.orig/po/ilo.po	2011-09-20 13:35:59.625477450 +0400
-+++ firstboot-16.4/po/ilo.po	2011-09-20 13:44:58.586515022 +0400
+diff -uNdr firstboot-16.4.orig/po/ilo.po firstboot-16.4/po/ilo.po
+--- firstboot-16.4.orig/po/ilo.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ilo.po	2012-01-22 22:57:43.471009219 +0400
 @@ -287,9 +287,9 @@
  
  #: ../modules/eula.py:45
@@ -1050,9 +1046,9 @@ diff -urN firstboot-16.4.orig/po/ilo.po firstboot-16.4/po/ilo.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/is.po firstboot-16.4/po/is.po
---- firstboot-16.4.orig/po/is.po	2011-09-20 13:35:59.620477356 +0400
-+++ firstboot-16.4/po/is.po	2011-09-20 13:44:58.587515041 +0400
+diff -uNdr firstboot-16.4.orig/po/is.po firstboot-16.4/po/is.po
+--- firstboot-16.4.orig/po/is.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/is.po	2012-01-22 22:57:43.471009219 +0400
 @@ -315,13 +315,13 @@
  
  #: ../modules/eula.py:45
@@ -1071,9 +1067,9 @@ diff -urN firstboot-16.4.orig/po/is.po firstboot-16.4/po/is.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/it.po firstboot-16.4/po/it.po
---- firstboot-16.4.orig/po/it.po	2011-09-20 13:35:59.650477915 +0400
-+++ firstboot-16.4/po/it.po	2011-09-20 13:44:58.588515059 +0400
+diff -uNdr firstboot-16.4.orig/po/it.po firstboot-16.4/po/it.po
+--- firstboot-16.4.orig/po/it.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/it.po	2012-01-22 22:57:43.471969949 +0400
 @@ -318,13 +318,13 @@
  
  #: ../modules/eula.py:45
@@ -1092,9 +1088,9 @@ diff -urN firstboot-16.4.orig/po/it.po firstboot-16.4/po/it.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ja_JP.po firstboot-16.4/po/ja_JP.po
---- firstboot-16.4.orig/po/ja_JP.po	2011-09-20 13:35:59.650477915 +0400
-+++ firstboot-16.4/po/ja_JP.po	2011-09-20 13:44:58.589515078 +0400
+diff -uNdr firstboot-16.4.orig/po/ja_JP.po firstboot-16.4/po/ja_JP.po
+--- firstboot-16.4.orig/po/ja_JP.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ja_JP.po	2012-01-22 22:57:43.472930679 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1107,9 +1103,9 @@ diff -urN firstboot-16.4.orig/po/ja_JP.po firstboot-16.4/po/ja_JP.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/ja.po firstboot-16.4/po/ja.po
---- firstboot-16.4.orig/po/ja.po	2011-09-20 13:35:59.645477822 +0400
-+++ firstboot-16.4/po/ja.po	2011-09-20 13:44:58.590515097 +0400
+diff -uNdr firstboot-16.4.orig/po/ja.po firstboot-16.4/po/ja.po
+--- firstboot-16.4.orig/po/ja.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ja.po	2012-01-22 22:57:43.472930679 +0400
 @@ -296,13 +296,13 @@
  
  #: ../modules/eula.py:45
@@ -1128,9 +1124,9 @@ diff -urN firstboot-16.4.orig/po/ja.po firstboot-16.4/po/ja.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ka.po firstboot-16.4/po/ka.po
---- firstboot-16.4.orig/po/ka.po	2011-09-20 13:35:59.619477337 +0400
-+++ firstboot-16.4/po/ka.po	2011-09-20 13:44:58.591515115 +0400
+diff -uNdr firstboot-16.4.orig/po/ka.po firstboot-16.4/po/ka.po
+--- firstboot-16.4.orig/po/ka.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ka.po	2012-01-22 22:57:43.473891409 +0400
 @@ -276,9 +276,9 @@
  
  #: ../modules/eula.py:45
@@ -1143,9 +1139,9 @@ diff -urN firstboot-16.4.orig/po/ka.po firstboot-16.4/po/ka.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/kn.po firstboot-16.4/po/kn.po
---- firstboot-16.4.orig/po/kn.po	2011-09-20 13:35:59.626477468 +0400
-+++ firstboot-16.4/po/kn.po	2011-09-20 13:44:58.592515133 +0400
+diff -uNdr firstboot-16.4.orig/po/kn.po firstboot-16.4/po/kn.po
+--- firstboot-16.4.orig/po/kn.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/kn.po	2012-01-22 22:57:43.473891409 +0400
 @@ -311,13 +311,13 @@
  
  #: ../modules/eula.py:45
@@ -1164,9 +1160,9 @@ diff -urN firstboot-16.4.orig/po/kn.po firstboot-16.4/po/kn.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ko.po firstboot-16.4/po/ko.po
---- firstboot-16.4.orig/po/ko.po	2011-09-20 13:35:59.618477319 +0400
-+++ firstboot-16.4/po/ko.po	2011-09-20 13:44:58.593515151 +0400
+diff -uNdr firstboot-16.4.orig/po/ko.po firstboot-16.4/po/ko.po
+--- firstboot-16.4.orig/po/ko.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ko.po	2012-01-22 22:57:43.474852139 +0400
 @@ -289,13 +289,13 @@
  
  #: ../modules/eula.py:45
@@ -1185,9 +1181,9 @@ diff -urN firstboot-16.4.orig/po/ko.po firstboot-16.4/po/ko.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ku.po firstboot-16.4/po/ku.po
---- firstboot-16.4.orig/po/ku.po	2011-09-20 13:35:59.634477617 +0400
-+++ firstboot-16.4/po/ku.po	2011-09-20 13:44:58.594515170 +0400
+diff -uNdr firstboot-16.4.orig/po/ku.po firstboot-16.4/po/ku.po
+--- firstboot-16.4.orig/po/ku.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ku.po	2012-01-22 22:57:43.474852139 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1200,9 +1196,9 @@ diff -urN firstboot-16.4.orig/po/ku.po firstboot-16.4/po/ku.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/lo.po firstboot-16.4/po/lo.po
---- firstboot-16.4.orig/po/lo.po	2011-09-20 13:35:59.642477766 +0400
-+++ firstboot-16.4/po/lo.po	2011-09-20 13:44:58.595515189 +0400
+diff -uNdr firstboot-16.4.orig/po/lo.po firstboot-16.4/po/lo.po
+--- firstboot-16.4.orig/po/lo.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/lo.po	2012-01-22 22:57:43.475812869 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1215,9 +1211,9 @@ diff -urN firstboot-16.4.orig/po/lo.po firstboot-16.4/po/lo.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/lt_LT.po firstboot-16.4/po/lt_LT.po
---- firstboot-16.4.orig/po/lt_LT.po	2011-09-20 13:35:59.644477803 +0400
-+++ firstboot-16.4/po/lt_LT.po	2011-09-20 13:44:58.596515208 +0400
+diff -uNdr firstboot-16.4.orig/po/lt_LT.po firstboot-16.4/po/lt_LT.po
+--- firstboot-16.4.orig/po/lt_LT.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/lt_LT.po	2012-01-22 22:57:43.475812869 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1230,9 +1226,9 @@ diff -urN firstboot-16.4.orig/po/lt_LT.po firstboot-16.4/po/lt_LT.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/lt.po firstboot-16.4/po/lt.po
---- firstboot-16.4.orig/po/lt.po	2011-09-20 13:35:59.636477654 +0400
-+++ firstboot-16.4/po/lt.po	2011-09-20 13:44:58.597515227 +0400
+diff -uNdr firstboot-16.4.orig/po/lt.po firstboot-16.4/po/lt.po
+--- firstboot-16.4.orig/po/lt.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/lt.po	2012-01-22 22:57:43.476773599 +0400
 @@ -274,9 +274,9 @@
  
  #: ../modules/eula.py:45
@@ -1245,9 +1241,9 @@ diff -urN firstboot-16.4.orig/po/lt.po firstboot-16.4/po/lt.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/lv.po firstboot-16.4/po/lv.po
---- firstboot-16.4.orig/po/lv.po	2011-09-20 13:35:59.649477897 +0400
-+++ firstboot-16.4/po/lv.po	2011-09-20 13:44:58.598515246 +0400
+diff -uNdr firstboot-16.4.orig/po/lv.po firstboot-16.4/po/lv.po
+--- firstboot-16.4.orig/po/lv.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/lv.po	2012-01-22 22:57:43.476773599 +0400
 @@ -301,13 +301,13 @@
  
  #: ../modules/eula.py:45
@@ -1266,9 +1262,9 @@ diff -urN firstboot-16.4.orig/po/lv.po firstboot-16.4/po/lv.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/mai.po firstboot-16.4/po/mai.po
---- firstboot-16.4.orig/po/mai.po	2011-09-20 13:35:59.621477375 +0400
-+++ firstboot-16.4/po/mai.po	2011-09-20 13:44:58.599515265 +0400
+diff -uNdr firstboot-16.4.orig/po/mai.po firstboot-16.4/po/mai.po
+--- firstboot-16.4.orig/po/mai.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/mai.po	2012-01-22 22:57:43.477734329 +0400
 @@ -305,13 +305,13 @@
  
  #: ../modules/eula.py:45
@@ -1287,9 +1283,9 @@ diff -urN firstboot-16.4.orig/po/mai.po firstboot-16.4/po/mai.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/mk.po firstboot-16.4/po/mk.po
---- firstboot-16.4.orig/po/mk.po	2011-09-20 13:35:59.627477486 +0400
-+++ firstboot-16.4/po/mk.po	2011-09-20 13:44:58.600515283 +0400
+diff -uNdr firstboot-16.4.orig/po/mk.po firstboot-16.4/po/mk.po
+--- firstboot-16.4.orig/po/mk.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/mk.po	2012-01-22 22:57:43.477734329 +0400
 @@ -288,13 +288,13 @@
  
  #: ../modules/eula.py:45
@@ -1308,9 +1304,9 @@ diff -urN firstboot-16.4.orig/po/mk.po firstboot-16.4/po/mk.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ml.po firstboot-16.4/po/ml.po
---- firstboot-16.4.orig/po/ml.po	2011-09-20 13:35:59.624477432 +0400
-+++ firstboot-16.4/po/ml.po	2011-09-20 13:44:58.601515301 +0400
+diff -uNdr firstboot-16.4.orig/po/ml.po firstboot-16.4/po/ml.po
+--- firstboot-16.4.orig/po/ml.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ml.po	2012-01-22 22:57:43.478695059 +0400
 @@ -323,13 +323,13 @@
  
  #: ../modules/eula.py:45
@@ -1329,9 +1325,9 @@ diff -urN firstboot-16.4.orig/po/ml.po firstboot-16.4/po/ml.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/mr.po firstboot-16.4/po/mr.po
---- firstboot-16.4.orig/po/mr.po	2011-09-20 13:35:59.632477581 +0400
-+++ firstboot-16.4/po/mr.po	2011-09-20 13:44:58.602515319 +0400
+diff -uNdr firstboot-16.4.orig/po/mr.po firstboot-16.4/po/mr.po
+--- firstboot-16.4.orig/po/mr.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/mr.po	2012-01-22 22:57:43.479655789 +0400
 @@ -311,13 +311,13 @@
  
  #: ../modules/eula.py:45
@@ -1350,9 +1346,9 @@ diff -urN firstboot-16.4.orig/po/mr.po firstboot-16.4/po/mr.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ms.po firstboot-16.4/po/ms.po
---- firstboot-16.4.orig/po/ms.po	2011-09-20 13:35:59.631477562 +0400
-+++ firstboot-16.4/po/ms.po	2011-09-20 13:44:58.603515338 +0400
+diff -uNdr firstboot-16.4.orig/po/ms.po firstboot-16.4/po/ms.po
+--- firstboot-16.4.orig/po/ms.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ms.po	2012-01-22 22:57:43.479655789 +0400
 @@ -284,13 +284,13 @@
  
  #: ../modules/eula.py:45
@@ -1371,9 +1367,9 @@ diff -urN firstboot-16.4.orig/po/ms.po firstboot-16.4/po/ms.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/my.po firstboot-16.4/po/my.po
---- firstboot-16.4.orig/po/my.po	2011-09-20 13:35:59.625477450 +0400
-+++ firstboot-16.4/po/my.po	2011-09-20 13:44:58.604515357 +0400
+diff -uNdr firstboot-16.4.orig/po/my.po firstboot-16.4/po/my.po
+--- firstboot-16.4.orig/po/my.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/my.po	2012-01-22 22:57:43.480616519 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1386,9 +1382,9 @@ diff -urN firstboot-16.4.orig/po/my.po firstboot-16.4/po/my.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/nb.po firstboot-16.4/po/nb.po
---- firstboot-16.4.orig/po/nb.po	2011-09-20 13:35:59.647477860 +0400
-+++ firstboot-16.4/po/nb.po	2011-09-20 13:44:58.605515376 +0400
+diff -uNdr firstboot-16.4.orig/po/nb.po firstboot-16.4/po/nb.po
+--- firstboot-16.4.orig/po/nb.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/nb.po	2012-01-22 22:57:43.480616519 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -1407,9 +1403,9 @@ diff -urN firstboot-16.4.orig/po/nb.po firstboot-16.4/po/nb.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/nds.po firstboot-16.4/po/nds.po
---- firstboot-16.4.orig/po/nds.po	2011-09-20 13:35:59.626477468 +0400
-+++ firstboot-16.4/po/nds.po	2011-09-20 13:44:58.606515395 +0400
+diff -uNdr firstboot-16.4.orig/po/nds.po firstboot-16.4/po/nds.po
+--- firstboot-16.4.orig/po/nds.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/nds.po	2012-01-22 22:57:43.481577249 +0400
 @@ -275,9 +275,9 @@
  
  #: ../modules/eula.py:45
@@ -1422,9 +1418,9 @@ diff -urN firstboot-16.4.orig/po/nds.po firstboot-16.4/po/nds.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/ne.po firstboot-16.4/po/ne.po
---- firstboot-16.4.orig/po/ne.po	2011-09-20 13:35:59.633477599 +0400
-+++ firstboot-16.4/po/ne.po	2011-09-20 13:44:58.607515414 +0400
+diff -uNdr firstboot-16.4.orig/po/ne.po firstboot-16.4/po/ne.po
+--- firstboot-16.4.orig/po/ne.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ne.po	2012-01-22 22:57:43.481577249 +0400
 @@ -286,13 +286,13 @@
  
  #: ../modules/eula.py:45
@@ -1442,9 +1438,9 @@ diff -urN firstboot-16.4.orig/po/ne.po firstboot-16.4/po/ne.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/nl.po firstboot-16.4/po/nl.po
---- firstboot-16.4.orig/po/nl.po	2011-09-20 13:35:59.628477505 +0400
-+++ firstboot-16.4/po/nl.po	2011-09-20 13:44:58.608515432 +0400
+diff -uNdr firstboot-16.4.orig/po/nl.po firstboot-16.4/po/nl.po
+--- firstboot-16.4.orig/po/nl.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/nl.po	2012-01-22 22:57:43.482537979 +0400
 @@ -313,13 +313,13 @@
  
  #: ../modules/eula.py:45
@@ -1463,9 +1459,9 @@ diff -urN firstboot-16.4.orig/po/nl.po firstboot-16.4/po/nl.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/nn.po firstboot-16.4/po/nn.po
---- firstboot-16.4.orig/po/nn.po	2011-09-20 13:35:59.640477730 +0400
-+++ firstboot-16.4/po/nn.po	2011-09-20 13:44:58.609515450 +0400
+diff -uNdr firstboot-16.4.orig/po/nn.po firstboot-16.4/po/nn.po
+--- firstboot-16.4.orig/po/nn.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/nn.po	2012-01-22 22:57:43.482537979 +0400
 @@ -301,13 +301,13 @@
  
  #: ../modules/eula.py:45
@@ -1484,9 +1480,9 @@ diff -urN firstboot-16.4.orig/po/nn.po firstboot-16.4/po/nn.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/nso.po firstboot-16.4/po/nso.po
---- firstboot-16.4.orig/po/nso.po	2011-09-20 13:35:59.648477879 +0400
-+++ firstboot-16.4/po/nso.po	2011-09-20 13:44:58.610515468 +0400
+diff -uNdr firstboot-16.4.orig/po/nso.po firstboot-16.4/po/nso.po
+--- firstboot-16.4.orig/po/nso.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/nso.po	2012-01-22 22:57:43.483498709 +0400
 @@ -279,9 +279,9 @@
  
  #: ../modules/eula.py:45
@@ -1499,9 +1495,9 @@ diff -urN firstboot-16.4.orig/po/nso.po firstboot-16.4/po/nso.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/or.po firstboot-16.4/po/or.po
---- firstboot-16.4.orig/po/or.po	2011-09-20 13:35:59.620477356 +0400
-+++ firstboot-16.4/po/or.po	2011-09-20 13:44:58.611515487 +0400
+diff -uNdr firstboot-16.4.orig/po/or.po firstboot-16.4/po/or.po
+--- firstboot-16.4.orig/po/or.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/or.po	2012-01-22 22:57:43.483498709 +0400
 @@ -315,13 +315,13 @@
  
  #: ../modules/eula.py:45
@@ -1519,9 +1515,9 @@ diff -urN firstboot-16.4.orig/po/or.po firstboot-16.4/po/or.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/pa.po firstboot-16.4/po/pa.po
---- firstboot-16.4.orig/po/pa.po	2011-09-20 13:35:59.618477319 +0400
-+++ firstboot-16.4/po/pa.po	2011-09-20 13:44:58.612515506 +0400
+diff -uNdr firstboot-16.4.orig/po/pa.po firstboot-16.4/po/pa.po
+--- firstboot-16.4.orig/po/pa.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/pa.po	2012-01-22 22:57:43.484459439 +0400
 @@ -310,13 +310,13 @@
  
  #: ../modules/eula.py:45
@@ -1539,9 +1535,9 @@ diff -urN firstboot-16.4.orig/po/pa.po firstboot-16.4/po/pa.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/pl.po firstboot-16.4/po/pl.po
---- firstboot-16.4.orig/po/pl.po	2011-09-20 13:35:59.620477356 +0400
-+++ firstboot-16.4/po/pl.po	2011-09-20 13:44:58.613515525 +0400
+diff -uNdr firstboot-16.4.orig/po/pl.po firstboot-16.4/po/pl.po
+--- firstboot-16.4.orig/po/pl.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/pl.po	2012-01-22 22:57:43.485420169 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -1560,9 +1556,9 @@ diff -urN firstboot-16.4.orig/po/pl.po firstboot-16.4/po/pl.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/pt_BR.po firstboot-16.4/po/pt_BR.po
---- firstboot-16.4.orig/po/pt_BR.po	2011-09-20 13:35:59.641477748 +0400
-+++ firstboot-16.4/po/pt_BR.po	2011-09-20 13:44:58.615515563 +0400
+diff -uNdr firstboot-16.4.orig/po/pt_BR.po firstboot-16.4/po/pt_BR.po
+--- firstboot-16.4.orig/po/pt_BR.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/pt_BR.po	2012-01-22 22:57:43.486380899 +0400
 @@ -317,13 +317,13 @@
  
  #: ../modules/eula.py:45
@@ -1581,9 +1577,9 @@ diff -urN firstboot-16.4.orig/po/pt_BR.po firstboot-16.4/po/pt_BR.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/pt.po firstboot-16.4/po/pt.po
---- firstboot-16.4.orig/po/pt.po	2011-09-20 13:35:59.624477432 +0400
-+++ firstboot-16.4/po/pt.po	2011-09-20 13:44:58.616515581 +0400
+diff -uNdr firstboot-16.4.orig/po/pt.po firstboot-16.4/po/pt.po
+--- firstboot-16.4.orig/po/pt.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/pt.po	2012-01-22 22:57:43.487341629 +0400
 @@ -315,13 +315,13 @@
  
  #: ../modules/eula.py:45
@@ -1602,9 +1598,9 @@ diff -urN firstboot-16.4.orig/po/pt.po firstboot-16.4/po/pt.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ro.po firstboot-16.4/po/ro.po
---- firstboot-16.4.orig/po/ro.po	2011-09-20 13:35:59.622477394 +0400
-+++ firstboot-16.4/po/ro.po	2011-09-20 13:44:58.617515599 +0400
+diff -uNdr firstboot-16.4.orig/po/ro.po firstboot-16.4/po/ro.po
+--- firstboot-16.4.orig/po/ro.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ro.po	2012-01-22 22:57:43.487341629 +0400
 @@ -285,13 +285,13 @@
  
  #: ../modules/eula.py:45
@@ -1623,9 +1619,9 @@ diff -urN firstboot-16.4.orig/po/ro.po firstboot-16.4/po/ro.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ru.po firstboot-16.4/po/ru.po
---- firstboot-16.4.orig/po/ru.po	2011-09-20 13:35:59.639477711 +0400
-+++ firstboot-16.4/po/ru.po	2011-09-20 13:57:14.016208296 +0400
+diff -uNdr firstboot-16.4.orig/po/ru.po firstboot-16.4/po/ru.po
+--- firstboot-16.4.orig/po/ru.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ru.po	2012-01-22 22:57:43.489263088 +0400
 @@ -226,6 +226,18 @@
  msgid "Confir_m Password:"
  msgstr "По_дтвердите пароль:"
@@ -1746,9 +1742,9 @@ diff -urN firstboot-16.4.orig/po/ru.po firstboot-16.4/po/ru.po
  #: ../modules/welcome.py:35 ../modules/welcome.py:36
  msgid "Welcome"
  msgstr "Добро пожаловать"
-diff -urN firstboot-16.4.orig/po/ru_RU.po firstboot-16.4/po/ru_RU.po
---- firstboot-16.4.orig/po/ru_RU.po	2011-09-20 13:35:59.621477375 +0400
-+++ firstboot-16.4/po/ru_RU.po	2011-09-20 13:44:58.619515636 +0400
+diff -uNdr firstboot-16.4.orig/po/ru_RU.po firstboot-16.4/po/ru_RU.po
+--- firstboot-16.4.orig/po/ru_RU.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ru_RU.po	2012-01-22 22:57:43.489263089 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1761,9 +1757,9 @@ diff -urN firstboot-16.4.orig/po/ru_RU.po firstboot-16.4/po/ru_RU.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/si.po firstboot-16.4/po/si.po
---- firstboot-16.4.orig/po/si.po	2011-09-20 13:35:59.617477301 +0400
-+++ firstboot-16.4/po/si.po	2011-09-20 13:44:58.620515655 +0400
+diff -uNdr firstboot-16.4.orig/po/si.po firstboot-16.4/po/si.po
+--- firstboot-16.4.orig/po/si.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/si.po	2012-01-22 22:57:43.489263089 +0400
 @@ -300,13 +300,13 @@
  
  #: ../modules/eula.py:45
@@ -1782,9 +1778,9 @@ diff -urN firstboot-16.4.orig/po/si.po firstboot-16.4/po/si.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/sk.po firstboot-16.4/po/sk.po
---- firstboot-16.4.orig/po/sk.po	2011-09-20 13:35:59.628477505 +0400
-+++ firstboot-16.4/po/sk.po	2011-09-20 13:44:58.621515674 +0400
+diff -uNdr firstboot-16.4.orig/po/sk.po firstboot-16.4/po/sk.po
+--- firstboot-16.4.orig/po/sk.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sk.po	2012-01-22 22:57:43.490223819 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -1803,9 +1799,9 @@ diff -urN firstboot-16.4.orig/po/sk.po firstboot-16.4/po/sk.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/sl.po firstboot-16.4/po/sl.po
---- firstboot-16.4.orig/po/sl.po	2011-09-20 13:35:59.616477283 +0400
-+++ firstboot-16.4/po/sl.po	2011-09-20 13:44:58.622515693 +0400
+diff -uNdr firstboot-16.4.orig/po/sl.po firstboot-16.4/po/sl.po
+--- firstboot-16.4.orig/po/sl.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sl.po	2012-01-22 22:57:43.491184549 +0400
 @@ -287,13 +287,13 @@
  
  #: ../modules/eula.py:45
@@ -1824,9 +1820,9 @@ diff -urN firstboot-16.4.orig/po/sl.po firstboot-16.4/po/sl.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/sq.po firstboot-16.4/po/sq.po
---- firstboot-16.4.orig/po/sq.po	2011-09-20 13:35:59.647477860 +0400
-+++ firstboot-16.4/po/sq.po	2011-09-20 13:44:58.623515712 +0400
+diff -uNdr firstboot-16.4.orig/po/sq.po firstboot-16.4/po/sq.po
+--- firstboot-16.4.orig/po/sq.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sq.po	2012-01-22 22:57:43.491184549 +0400
 @@ -289,9 +289,9 @@
  
  #: ../modules/eula.py:45
@@ -1839,9 +1835,9 @@ diff -urN firstboot-16.4.orig/po/sq.po firstboot-16.4/po/sq.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/sr@latin.po firstboot-16.4/po/sr@latin.po
---- firstboot-16.4.orig/po/sr@latin.po	2011-09-20 13:35:59.644477803 +0400
-+++ firstboot-16.4/po/sr@latin.po	2011-09-20 13:44:58.624515730 +0400
+diff -uNdr firstboot-16.4.orig/po/sr@latin.po firstboot-16.4/po/sr@latin.po
+--- firstboot-16.4.orig/po/sr@latin.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sr@latin.po	2012-01-22 22:57:43.491184549 +0400
 @@ -302,13 +302,13 @@
  
  #: ../modules/eula.py:45
@@ -1860,9 +1856,9 @@ diff -urN firstboot-16.4.orig/po/sr@latin.po firstboot-16.4/po/sr@latin.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/sr.po firstboot-16.4/po/sr.po
---- firstboot-16.4.orig/po/sr.po	2011-09-20 13:35:59.646477841 +0400
-+++ firstboot-16.4/po/sr.po	2011-09-20 13:44:58.625515748 +0400
+diff -uNdr firstboot-16.4.orig/po/sr.po firstboot-16.4/po/sr.po
+--- firstboot-16.4.orig/po/sr.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sr.po	2012-01-22 22:57:43.493106008 +0400
 @@ -301,13 +301,13 @@
  
  #: ../modules/eula.py:45
@@ -1881,9 +1877,9 @@ diff -urN firstboot-16.4.orig/po/sr.po firstboot-16.4/po/sr.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/sv.po firstboot-16.4/po/sv.po
---- firstboot-16.4.orig/po/sv.po	2011-09-20 13:35:59.635477635 +0400
-+++ firstboot-16.4/po/sv.po	2011-09-20 13:44:58.626515766 +0400
+diff -uNdr firstboot-16.4.orig/po/sv.po firstboot-16.4/po/sv.po
+--- firstboot-16.4.orig/po/sv.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/sv.po	2012-01-22 22:57:43.493106008 +0400
 @@ -309,13 +309,13 @@
  
  #: ../modules/eula.py:45
@@ -1902,9 +1898,9 @@ diff -urN firstboot-16.4.orig/po/sv.po firstboot-16.4/po/sv.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ta_IN.po firstboot-16.4/po/ta_IN.po
---- firstboot-16.4.orig/po/ta_IN.po	2011-09-20 13:35:59.651477933 +0400
-+++ firstboot-16.4/po/ta_IN.po	2011-09-20 13:44:58.627515785 +0400
+diff -uNdr firstboot-16.4.orig/po/ta_IN.po firstboot-16.4/po/ta_IN.po
+--- firstboot-16.4.orig/po/ta_IN.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ta_IN.po	2012-01-22 22:57:43.494066738 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -1917,9 +1913,9 @@ diff -urN firstboot-16.4.orig/po/ta_IN.po firstboot-16.4/po/ta_IN.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/ta.po firstboot-16.4/po/ta.po
---- firstboot-16.4.orig/po/ta.po	2011-09-20 13:35:59.640477730 +0400
-+++ firstboot-16.4/po/ta.po	2011-09-20 13:44:58.628515804 +0400
+diff -uNdr firstboot-16.4.orig/po/ta.po firstboot-16.4/po/ta.po
+--- firstboot-16.4.orig/po/ta.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ta.po	2012-01-22 22:57:43.494066738 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -1938,9 +1934,9 @@ diff -urN firstboot-16.4.orig/po/ta.po firstboot-16.4/po/ta.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/te.po firstboot-16.4/po/te.po
---- firstboot-16.4.orig/po/te.po	2011-09-20 13:35:59.636477654 +0400
-+++ firstboot-16.4/po/te.po	2011-09-20 13:44:58.629515823 +0400
+diff -uNdr firstboot-16.4.orig/po/te.po firstboot-16.4/po/te.po
+--- firstboot-16.4.orig/po/te.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/te.po	2012-01-22 22:57:43.495027468 +0400
 @@ -312,13 +312,13 @@
  
  #: ../modules/eula.py:45
@@ -1959,9 +1955,9 @@ diff -urN firstboot-16.4.orig/po/te.po firstboot-16.4/po/te.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/tg.po firstboot-16.4/po/tg.po
---- firstboot-16.4.orig/po/tg.po	2011-09-20 13:35:59.635477635 +0400
-+++ firstboot-16.4/po/tg.po	2011-09-20 13:44:58.630515842 +0400
+diff -uNdr firstboot-16.4.orig/po/tg.po firstboot-16.4/po/tg.po
+--- firstboot-16.4.orig/po/tg.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/tg.po	2012-01-22 22:57:43.495027468 +0400
 @@ -274,9 +274,9 @@
  
  #: ../modules/eula.py:45
@@ -1974,9 +1970,9 @@ diff -urN firstboot-16.4.orig/po/tg.po firstboot-16.4/po/tg.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/th.po firstboot-16.4/po/th.po
---- firstboot-16.4.orig/po/th.po	2011-09-20 13:35:59.651477933 +0400
-+++ firstboot-16.4/po/th.po	2011-09-20 13:44:58.631515861 +0400
+diff -uNdr firstboot-16.4.orig/po/th.po firstboot-16.4/po/th.po
+--- firstboot-16.4.orig/po/th.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/th.po	2012-01-22 22:57:43.495988198 +0400
 @@ -285,13 +285,13 @@
  
  #: ../modules/eula.py:45
@@ -1995,9 +1991,9 @@ diff -urN firstboot-16.4.orig/po/th.po firstboot-16.4/po/th.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/tr.po firstboot-16.4/po/tr.po
---- firstboot-16.4.orig/po/tr.po	2011-09-20 13:35:59.630477543 +0400
-+++ firstboot-16.4/po/tr.po	2011-09-20 13:44:58.633515897 +0400
+diff -uNdr firstboot-16.4.orig/po/tr.po firstboot-16.4/po/tr.po
+--- firstboot-16.4.orig/po/tr.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/tr.po	2012-01-22 22:57:43.495988198 +0400
 @@ -311,13 +311,13 @@
  
  #: ../modules/eula.py:45
@@ -2016,9 +2012,9 @@ diff -urN firstboot-16.4.orig/po/tr.po firstboot-16.4/po/tr.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/uk.po firstboot-16.4/po/uk.po
---- firstboot-16.4.orig/po/uk.po	2011-09-20 13:35:59.616477283 +0400
-+++ firstboot-16.4/po/uk.po	2011-09-20 13:44:58.634515915 +0400
+diff -uNdr firstboot-16.4.orig/po/uk.po firstboot-16.4/po/uk.po
+--- firstboot-16.4.orig/po/uk.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/uk.po	2012-01-22 22:57:43.496948928 +0400
 @@ -308,13 +308,13 @@
  
  #: ../modules/eula.py:45
@@ -2037,9 +2033,9 @@ diff -urN firstboot-16.4.orig/po/uk.po firstboot-16.4/po/uk.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/ur.po firstboot-16.4/po/ur.po
---- firstboot-16.4.orig/po/ur.po	2011-09-20 13:35:59.634477617 +0400
-+++ firstboot-16.4/po/ur.po	2011-09-20 13:44:58.635515934 +0400
+diff -uNdr firstboot-16.4.orig/po/ur.po firstboot-16.4/po/ur.po
+--- firstboot-16.4.orig/po/ur.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/ur.po	2012-01-22 22:57:43.496948928 +0400
 @@ -281,9 +281,9 @@
  
  #: ../modules/eula.py:45
@@ -2052,9 +2048,9 @@ diff -urN firstboot-16.4.orig/po/ur.po firstboot-16.4/po/ur.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/vi.po firstboot-16.4/po/vi.po
---- firstboot-16.4.orig/po/vi.po	2011-09-20 13:35:59.623477413 +0400
-+++ firstboot-16.4/po/vi.po	2011-09-20 13:44:58.636515953 +0400
+diff -uNdr firstboot-16.4.orig/po/vi.po firstboot-16.4/po/vi.po
+--- firstboot-16.4.orig/po/vi.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/vi.po	2012-01-22 22:57:43.496948928 +0400
 @@ -275,9 +275,9 @@
  
  #: ../modules/eula.py:45
@@ -2067,9 +2063,9 @@ diff -urN firstboot-16.4.orig/po/vi.po firstboot-16.4/po/vi.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/vi_VN.po firstboot-16.4/po/vi_VN.po
---- firstboot-16.4.orig/po/vi_VN.po	2011-09-20 13:35:59.621477375 +0400
-+++ firstboot-16.4/po/vi_VN.po	2011-09-20 13:44:58.637515972 +0400
+diff -uNdr firstboot-16.4.orig/po/vi_VN.po firstboot-16.4/po/vi_VN.po
+--- firstboot-16.4.orig/po/vi_VN.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/vi_VN.po	2012-01-22 22:57:43.497909658 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -2082,9 +2078,9 @@ diff -urN firstboot-16.4.orig/po/vi_VN.po firstboot-16.4/po/vi_VN.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/zh_CN.po firstboot-16.4/po/zh_CN.po
---- firstboot-16.4.orig/po/zh_CN.po	2011-09-20 13:35:59.652477952 +0400
-+++ firstboot-16.4/po/zh_CN.po	2011-09-20 13:44:58.638515991 +0400
+diff -uNdr firstboot-16.4.orig/po/zh_CN.po firstboot-16.4/po/zh_CN.po
+--- firstboot-16.4.orig/po/zh_CN.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/zh_CN.po	2012-01-22 22:57:43.497909658 +0400
 @@ -288,13 +288,13 @@
  
  #: ../modules/eula.py:45
@@ -2103,9 +2099,9 @@ diff -urN firstboot-16.4.orig/po/zh_CN.po firstboot-16.4/po/zh_CN.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/zh_HK.po firstboot-16.4/po/zh_HK.po
---- firstboot-16.4.orig/po/zh_HK.po	2011-09-20 13:35:59.648477879 +0400
-+++ firstboot-16.4/po/zh_HK.po	2011-09-20 13:44:58.639516010 +0400
+diff -uNdr firstboot-16.4.orig/po/zh_HK.po firstboot-16.4/po/zh_HK.po
+--- firstboot-16.4.orig/po/zh_HK.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/zh_HK.po	2012-01-22 22:57:43.498870388 +0400
 @@ -271,9 +271,9 @@
  
  #: ../modules/eula.py:45
@@ -2118,9 +2114,9 @@ diff -urN firstboot-16.4.orig/po/zh_HK.po firstboot-16.4/po/zh_HK.po
  msgstr ""
  
  #: ../modules/eula.py:60
-diff -urN firstboot-16.4.orig/po/zh_TW.po firstboot-16.4/po/zh_TW.po
---- firstboot-16.4.orig/po/zh_TW.po	2011-09-20 13:35:59.629477524 +0400
-+++ firstboot-16.4/po/zh_TW.po	2011-09-20 13:44:58.640516028 +0400
+diff -uNdr firstboot-16.4.orig/po/zh_TW.po firstboot-16.4/po/zh_TW.po
+--- firstboot-16.4.orig/po/zh_TW.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/zh_TW.po	2012-01-22 22:57:43.498870388 +0400
 @@ -287,13 +287,13 @@
  
  #: ../modules/eula.py:45
@@ -2139,9 +2135,9 @@ diff -urN firstboot-16.4.orig/po/zh_TW.po firstboot-16.4/po/zh_TW.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
-diff -urN firstboot-16.4.orig/po/zu.po firstboot-16.4/po/zu.po
---- firstboot-16.4.orig/po/zu.po	2011-09-20 13:35:59.637477673 +0400
-+++ firstboot-16.4/po/zu.po	2011-09-20 13:44:58.641516046 +0400
+diff -uNdr firstboot-16.4.orig/po/zu.po firstboot-16.4/po/zu.po
+--- firstboot-16.4.orig/po/zu.po	2011-09-20 00:08:00.000000000 +0400
++++ firstboot-16.4/po/zu.po	2012-01-22 22:57:43.498870388 +0400
 @@ -274,9 +274,9 @@
  
  #: ../modules/eula.py:45

@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 16.4
-Release: 1%{?dist}.1.R
+Release: 1%{?dist}.2.R
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Sun Jan 22 2012 Alexei Panov <me AT elemc DOT name> 16.4-1.2.R
+- fix rfremix patch for RFR#824 (added upstream checkbox for add user to administrative group)
+
 * Tue Sep 20 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4-1.1.R
 - apply rfremix patches
 - drop "disable SELinux" option
