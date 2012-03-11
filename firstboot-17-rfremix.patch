@@ -1644,7 +1644,7 @@ diff -urN firstboot-17.0.orig/po/ro.po firstboot-17.0/po/ro.po
  msgid "Understood, please proceed."
 diff -urN firstboot-17.0.orig/po/ru.po firstboot-17.0/po/ru.po
 --- firstboot-17.0.orig/po/ru.po	2012-03-11 15:39:02.197780927 +0400
-+++ firstboot-17.0/po/ru.po	2012-03-11 15:47:44.942812383 +0400
++++ firstboot-17.0/po/ru.po	2012-03-11 16:15:51.148913848 +0400
 @@ -226,6 +226,18 @@
  msgid "Confir_m Password:"
  msgstr "По_дтвердите пароль:"
@@ -1664,7 +1664,7 @@ diff -urN firstboot-17.0.orig/po/ru.po firstboot-17.0/po/ru.po
  #: ../modules/create_user.py:294
  msgid "Add to Administrators group"
  msgstr "Добавить в группу Администраторов"
-@@ -308,13 +320,13 @@
+@@ -308,18 +320,96 @@
  
  #: ../modules/eula.py:45
  msgid ""
@@ -1682,6 +1682,89 @@ diff -urN firstboot-17.0.orig/po/ru.po firstboot-17.0/po/ru.po
  
  #: ../modules/eula.py:60
  msgid "Understood, please proceed."
+ msgstr "Понятно, можно продолжать."
+ 
++#: ../modules/rfremix.py:31
++msgid "RFRemix configure"
++msgstr "Настройка RFRemix"
++
++#: ../modules/rfremix.py:125
++msgid "Now you can enable some parameters, which are disabled in original "
++"Fedora, such as icons in menu, encoding autodetection and others. "
++"These are global parameter, they will be enabled for all users."
++msgstr ""
++"Cейчас вы можете включить некоторые параметры, которые "
++"отключены в оригинальной Fedora, такие как значки в "
++"меню, автоопределение кодировки и другие. Это глобальные параметры, "
++"они будут включены для всех пользователей."
++
++#: ../modules/rfremix.py:139
++msgid "<b>GNOME Preferences</b>"
++msgstr "<b>Настройки GNOME</b>"
++
++#: ../modules/rfremix.py:147
++msgid "Turn on icons in menus"
++msgstr "Включить значки в меню"
++
++#: ../modules/rfremix.py:149
++msgid "Turn on icons on buttons"
++msgstr "Включить значки на кнопках"
++
++#: ../modules/rfremix.py:151
++msgid "Disable menu accelerators in GNOME Terminal"
++msgstr "Отключить ускорители меню в GNOME Terminal"
++
++#: ../modules/rfremix.py:153
++msgid "Autodetec windows-1251 encoding in Gedit"
++msgstr "Автоопределение кодировки windows-1251 в Gedit"
++
++#: ../modules/rfremix.py:156
++msgid "<b>System Preferences</b>"
++msgstr "<b>Системные настройки</b>"
++
++#: ../modules/rfremix.py:164
++msgid "Let PackageKit work without network"
++msgstr "Разрешить PackageKit работать с пакетами при отсутствии сети"
++
++#: ../modules/rfremix.py:181
++msgid "Desktop Preferences"
++msgstr "Настройки рабочего стола"
++
++#: ../modules/rfremix.py:185
++msgid "System Preferences"
++msgstr "Системные настройки"
++
++#: ../modules/rfremix.py:187
++msgid "<b>Select login manager:</b>"
++msgstr "<b>Выберите менеджер входа в систему:</b>"
++
++#: ../modules/rfremix.py:195
++msgid "KDE Display Manager"
++msgstr ""
++
++#: ../modules/rfremix.py:207
++msgid "GNOME Display Manager"
++msgstr ""
++
++#: ../modules/rfremix.py:222
++msgid "<b>Advanced system settings</b>"
++msgstr "<b>Дополнительные системные настройки</b>"
++
++#: ../modules/rfremix.py:234
++msgid "Enable Ctrl+Alt+Backspace combination to restart X-server"
++msgstr "Включить комбинацию клавиш Ctrl+Alt+Backspace для перезапуска X-сервера"
++
++#: ../modules/rfremix.py:243
++msgid "Disable IPv6 support"
++msgstr "Отключить поддержку IPv6"
++
++#: ../modules/rfremix.py:252
++msgid "Switch SELinux to Permissive"
++msgstr "Переключить SELinux в разрешающий режим"
++
+ #: ../modules/welcome.py:35 ../modules/welcome.py:36
+ msgid "Welcome"
+ msgstr "Добро пожаловать"
 diff -urN firstboot-17.0.orig/po/ru_RU.po firstboot-17.0/po/ru_RU.po
 --- firstboot-17.0.orig/po/ru_RU.po	2012-03-11 15:39:02.202780927 +0400
 +++ firstboot-17.0/po/ru_RU.po	2012-03-11 15:46:45.600808809 +0400
