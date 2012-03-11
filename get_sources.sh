@@ -1,4 +1,4 @@
 #!/bin/sh
 
-curl -sO http://pkgs.fedoraproject.org/repo/pkgs/firstboot/firstboot-16.4.tar.bz2/1124c87f126bf7823f2dd04f1c324f9f/firstboot-16.4.tar.bz2
+curl -sO http://pkgs.fedoraproject.org/repo/pkgs/firstboot/firstboot-17.0.tar.bz2/1583d51657a2be84a9ce2b0912449c79/firstboot-17.0.tar.bz2
 

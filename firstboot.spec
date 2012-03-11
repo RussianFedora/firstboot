@@ -3,14 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 16.4
-Release: 1%{?dist}.2.R
+Version: 17.0
+Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
 
-Patch0: firstboot-16.4-rfremix.patch
+Patch0: firstboot-17-rfremix.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -20,7 +20,8 @@ BuildRequires: gettext
 BuildRequires: python-devel, python-setuptools-devel
 BuildRequires: systemd-units
 Requires: pygtk2, python
-Requires: setuptool, libuser-python, system-config-users, system-config-date
+Requires: setuptool, libuser-python, system-config-date
+Requires: system-config-users >= 1.2.111-1
 Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
@@ -106,6 +107,9 @@ fi
 
 
 %changelog
+* Sun Mar 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.0-1.R
+- update to 17
+
 * Sun Jan 22 2012 Alexei Panov <me AT elemc DOT name> 16.4-1.2.R
 - fix rfremix patch for RFR#824 (added upstream checkbox for add user to administrative group)
 
