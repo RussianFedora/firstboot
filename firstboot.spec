@@ -4,13 +4,14 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 16.4
-Release: 1%{?dist}.2.R
+Release: 1.3%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
 
 Patch0: firstboot-16.4-rfremix.patch
+Patch1: firstboot-smolt.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -41,6 +42,7 @@ a series of steps that allows for easier configuration of the machine.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix
+%patch1 -p1 -b .smolt
 
 %build
 
@@ -106,6 +108,9 @@ fi
 
 
 %changelog
+* Mon Mar 26 2012 Arkady L. Shane <ashejn@russianfedora.ru> 16.4-1.3
+- fix rfr#982
+
 * Sun Jan 22 2012 Alexei Panov <me AT elemc DOT name> 16.4-1.2.R
 - fix rfremix patch for RFR#824 (added upstream checkbox for add user to administrative group)
 

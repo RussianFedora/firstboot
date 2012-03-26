@@ -1,0 +1,25 @@
+diff -urN firstboot-16.4.orig/progs/firstboot firstboot-16.4/progs/firstboot
+--- firstboot-16.4.orig/progs/firstboot	2012-03-26 18:37:07.173119556 +0400
++++ firstboot-16.4/progs/firstboot	2012-03-26 18:37:54.765020923 +0400
+@@ -72,6 +72,10 @@
+                     os.system('systemctl stop firstboot-text.service > /dev/null 2>&1')
+                     sys.exit(0)
+ 
++    if os.path.isfile('/etc/smolt/config.py'):
++        os.system('sed -i "s!^OS = os_detect.get_os_info()!#OS = os_detect.get_os_info()!g" /etc/smolt/config.py')
++        os.system('sed -i "s!^#    OS = file!OS = file!g;s!distro-release!rfremix-release!g" /etc/smolt/config.py')
++
+     if not opts.module_dir:
+         opts.module_dir = MODULE_DIR
+ 
+@@ -136,6 +140,10 @@
+         with open('/etc/sysconfig/firstboot', 'w') as f:
+             f.write('RUN_FIRSTBOOT=NO\n')
+ 
++        if os.path.isfile('/etc/smolt/config.py'):
++            os.system('sed -i "s!^#OS = os_detect.get_os_info()!OS = os_detect.get_os_info()!g" /etc/smolt/config.py')
++            os.system('sed -i "s!^OS = file!#    OS = file!g;s!rfremix-release!distro-release!g" /etc/smolt/config.py')
++
+         if opts.reconfig:
+             try:
+                 os.unlink('/etc/reconfigSys')
