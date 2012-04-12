@@ -3,7 +3,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 17.0
+Version: 17.1
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
@@ -11,6 +11,7 @@ Release: 1%{?dist}
 Source0: %{name}-%{version}.tar.bz2
 
 Patch0: firstboot-17-rfremix.patch
+Patch1: firstboot-17.1-rfremix-po.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -25,7 +26,7 @@ Requires: system-config-users >= 1.2.111-1
 Requires: authconfig-gtk, python-meh
 Requires: system-config-keyboard
 Requires: python-ethtool
-Requires: cracklib-python
+Requires: python-pwquality
 Requires(post): systemd-units systemd-sysv chkconfig
 Requires(preun): systemd-units
 Requires(postun): systemd-units
@@ -42,6 +43,7 @@ a series of steps that allows for easier configuration of the machine.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix
+%patch1 -p1 -b .rfremix-po
 
 %build
 
@@ -107,6 +109,9 @@ fi
 
 
 %changelog
+* Thu Apr 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.1-1.R
+- update to 17.1
+
 * Sun Mar 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.0-1.R
 - update to 17
 
