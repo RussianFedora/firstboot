@@ -1,16 +1,18 @@
-diff -urN firstboot-17.0.orig/modules/create_user.py firstboot-17.0/modules/create_user.py
---- firstboot-17.0.orig/modules/create_user.py	2012-03-11 15:39:02.207780927 +0400
-+++ firstboot-17.0/modules/create_user.py	2012-03-11 15:42:56.769795041 +0400
-@@ -279,12 +279,27 @@
+diff -urN firstboot-17.2/modules/create_user.py firstboot-17.2.new/modules/create_user.py
+--- firstboot-17.2/modules/create_user.py	2012-04-20 11:20:35.000000000 +0400
++++ firstboot-17.2.new/modules/create_user.py	2012-04-24 14:06:48.823704387 +0400
+@@ -279,7 +279,7 @@
  
          self.admin.setpassUser(userEnt, self.passwordEntry.get_text(), 0)
  
--        # add user to wheel group
-+        # add user to wheel group # hacked by Russian Fedora ;)
+-        # add user to wheel and dialout group
++        # add user to wheel and dialout group # hacked by Russian Fedora ;)
          if self.is_admin.get_active():
              wheelEnt = self.admin.lookupGroupByName("wheel")
              wheelEnt.add(libuser.MEMBERNAME, username)
-             self.admin.modifyGroup(wheelEnt)
+@@ -288,6 +288,21 @@
+             dialoutEnt.add(libuser.MEMBERNAME, username)
+             self.admin.modifyGroup(dialoutEnt)
  
 +        # FIXME: elemc: Here is radiobutton active states
 +
@@ -30,7 +32,7 @@ diff -urN firstboot-17.0.orig/modules/create_user.py firstboot-17.0/modules/crea
          return RESULT_SUCCESS
  
      def createScreen(self):
-@@ -325,7 +340,7 @@
+@@ -328,7 +343,7 @@
  
          self.vbox.pack_start(label, False, True)
  
@@ -39,7 +41,7 @@ diff -urN firstboot-17.0.orig/modules/create_user.py firstboot-17.0/modules/crea
          table.set_row_spacings(6)
          table.set_col_spacings(6)
  
-@@ -364,6 +379,13 @@
+@@ -367,6 +382,13 @@
          self.is_admin.set_alignment(0.0, 0.5)
          table.attach(self.is_admin, 2, 3, 1, 2, gtk.FILL)
  
@@ -53,9 +55,9 @@ diff -urN firstboot-17.0.orig/modules/create_user.py firstboot-17.0/modules/crea
          self.vbox.pack_start(table, False)
  
          label = gtk.Label(_("If you need to use network authentication, such as Kerberos or NIS, "
-diff -urN firstboot-17.0.orig/modules/date.py firstboot-17.0/modules/date.py
---- firstboot-17.0.orig/modules/date.py	2012-03-11 15:39:02.207780927 +0400
-+++ firstboot-17.0/modules/date.py	2012-03-11 15:43:16.356796218 +0400
+diff -urN firstboot-17.2/modules/date.py firstboot-17.2.new/modules/date.py
+--- firstboot-17.2/modules/date.py	2012-04-20 11:20:35.000000000 +0400
++++ firstboot-17.2.new/modules/date.py	2012-04-24 14:04:11.629881772 +0400
 @@ -35,7 +35,7 @@
  class moduleClass(Module):
      def __init__(self):
@@ -65,9 +67,9 @@ diff -urN firstboot-17.0.orig/modules/date.py firstboot-17.0/modules/date.py
          self.sidebarTitle = N_("Date and Time")
          self.title = N_("Date and Time")
          self.icon = "system-config-date.png"
-diff -urN firstboot-17.0.orig/modules/eula.py firstboot-17.0/modules/eula.py
---- firstboot-17.0.orig/modules/eula.py	2012-03-11 15:39:02.207780927 +0400
-+++ firstboot-17.0/modules/eula.py	2012-03-11 15:43:52.036798367 +0400
+diff -urN firstboot-17.2/modules/eula.py firstboot-17.2.new/modules/eula.py
+--- firstboot-17.2/modules/eula.py	2012-04-20 11:20:35.000000000 +0400
++++ firstboot-17.2.new/modules/eula.py	2012-04-24 14:04:11.630881771 +0400
 @@ -42,7 +42,7 @@
      def createScreen(self):
          self.vbox = gtk.VBox(spacing=10)
@@ -86,9 +88,9 @@ diff -urN firstboot-17.0.orig/modules/eula.py firstboot-17.0/modules/eula.py
          label.set_line_wrap(True)
          label.set_alignment(0.0, 0.0)
          label.set_size_request(500, -1)
-diff -urN firstboot-17.0.orig/modules/rfremix.py firstboot-17.0/modules/rfremix.py
---- firstboot-17.0.orig/modules/rfremix.py	1970-01-01 03:00:00.000000000 +0300
-+++ firstboot-17.0/modules/rfremix.py	2012-03-11 15:45:14.296803316 +0400
+diff -urN firstboot-17.2/modules/rfremix.py firstboot-17.2.new/modules/rfremix.py
+--- firstboot-17.2/modules/rfremix.py	1970-01-01 03:00:00.000000000 +0300
++++ firstboot-17.2.new/modules/rfremix.py	2012-04-24 14:04:11.631881769 +0400
 @@ -0,0 +1,261 @@
 +# -*- coding: utf-8 -*-
 +#

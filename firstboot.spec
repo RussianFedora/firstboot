@@ -3,14 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 17.1
+Version: 17.2
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
 
-Patch0: firstboot-17-rfremix.patch
+Patch0: firstboot-17.2-rfremix.patch
 Patch1: firstboot-17.1-rfremix-po.patch
 
 License: GPLv2+
@@ -109,6 +109,9 @@ fi
 
 
 %changelog
+* Tue Apr 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.1-2.R
+- update to 17.2
+
 * Thu Apr 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.1-1.R
 - update to 17.1
 
