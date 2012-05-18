@@ -3,7 +3,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 17.2
+Version: 17.3
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
@@ -109,7 +109,10 @@ fi
 
 
 %changelog
-* Tue Apr 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.1-2.R
+* Fri May 18 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.3-1.R
+- update to 17.3
+
+* Tue Apr 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.2-1.R
 - update to 17.2
 
 * Thu Apr 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.1-1.R
