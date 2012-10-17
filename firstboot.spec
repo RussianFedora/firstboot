@@ -8,7 +8,7 @@ Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
-Source0: %{name}-%{version}.tar.bz2
+Source0: %{name}-%{version}.tar.gz
 
 Patch0: firstboot-18.4-rfremix.patch
 Patch1: firstboot-17.1-rfremix-po.patch
