@@ -3,14 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 17.3
+Version: 18.4
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.bz2
 
-Patch0: firstboot-17.2-rfremix.patch
+Patch0: firstboot-18.4-rfremix.patch
 Patch1: firstboot-17.1-rfremix-po.patch
 
 License: GPLv2+
@@ -31,6 +31,7 @@ Requires(post): systemd-units systemd-sysv chkconfig
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 Requires: firstboot(windowmanager)
+Requires: libreport-python
 
 %define debug_package %{nil}
 
@@ -62,7 +63,7 @@ if [ $1 -ne 2 -a ! -f /etc/sysconfig/firstboot ]; then
   if [ "$platform" = "s390" -o "$platform" = "s390x" ]; then
     echo "RUN_FIRSTBOOT=YES" > /etc/sysconfig/firstboot
   else
-    systemctl enable firstboot-graphical.service >/dev/null 2>&1 || :
+    %systemd_post firstboot-graphical.service
   fi
 fi
 
@@ -70,15 +71,11 @@ fi
 if [ $1 = 0 ]; then
   rm -rf /usr/share/firstboot/*.pyc
   rm -rf /usr/share/firstboot/modules/*.pyc
-  /bin/systemctl --no-reload firstboot-graphical.service > /dev/null 2>&1 || :
-  /bin/systemctl stop firstboot-graphical.service > /dev/null 2>&1 || :
 fi
+%systemd_preun firstboot-graphical.service
 
 %postun
-/bin/systemctl daemon-reload > /dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    /bin/systemctl try-restart firstboot-graphical.service > /dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart firstboot-graphical.service
 
 %triggerun -- firstboot < 1.117
 %{_bindir}/systemd-sysv-convert --save firstboot > /dev/null 2>&1 ||:
@@ -109,6 +106,9 @@ fi
 
 
 %changelog
+* Wed Oct 17 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.4-1.R
+- update to 18.4
+
 * Fri May 18 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.3-1.R
 - update to 17.3
 
