@@ -3,7 +3,7 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 18.4
+Version: 18.5
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Sun Oct 28 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.5-1.R
+- update to 18.5
+
 * Wed Oct 17 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.4-1.R
 - update to 18.4
 
