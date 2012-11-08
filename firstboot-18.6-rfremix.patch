@@ -1,0 +1,343 @@
+diff -urN firstboot-18.4.orig/modules/create_user.py firstboot-18.4/modules/create_user.py
+--- firstboot-18.4.orig/modules/create_user.py	2012-10-17 14:24:37.624920600 +0400
++++ firstboot-18.4/modules/create_user.py	2012-10-17 14:25:23.769047770 +0400
+@@ -279,7 +279,7 @@
+ 
+         self.admin.setpassUser(userEnt, self.passwordEntry.get_text(), 0)
+ 
+-        # add user to wheel and dialout group
++        # add user to wheel and dialout group # hacked by Russian Fedora ;)
+         if self.is_admin.get_active():
+             wheelEnt = self.admin.lookupGroupByName("wheel")
+             wheelEnt.add(libuser.MEMBERNAME, username)
+@@ -288,6 +288,21 @@
+             dialoutEnt.add(libuser.MEMBERNAME, username)
+             self.admin.modifyGroup(dialoutEnt)
+ 
++        # FIXME: elemc: Here is radiobutton active states
++
++        if self.ch1.get_active() == 0:
++            pass
++        else:
++            sudo_hook_name = '/etc/sudoers.d/%s' % username
++            sudo_hood = open(sudo_hook_name, 'w')
++            if self.ch1.get_active() == 1:
++                sudo_hood.write('%s ALL=(ALL) ALL\n' % username)
++            elif self.ch1.get_active() == 2:
++                sudo_hood.write('%s ALL=(ALL) NOPASSWD: ALL\n' % username)
++
++            sudo_hood.close()
++            os.chmod(sudo_hook_name, 0440)
++
+         return RESULT_SUCCESS
+ 
+     def createScreen(self):
+@@ -328,7 +343,7 @@
+ 
+         self.vbox.pack_start(label, False, True)
+ 
+-        table = gtk.Table(3, 4)
++        table = gtk.Table(3, 5)
+         table.set_row_spacings(6)
+         table.set_col_spacings(6)
+ 
+@@ -376,6 +391,13 @@
+         
+         table.attach(self.is_admin, 2, 3, 1, 2, gtk.FILL)
+ 
++        self.ch1 = gtk.combo_box_new_text()
++        self.ch1.append_text( _('Don\'t use sudo') )
++        self.ch1.append_text( _('Use sudo with password prompt') )
++        self.ch1.append_text( _('Use sudo without password prompt') )
++        self.ch1.set_active(0)
++        table.attach(self.ch1, 0, 2, 4, 5, gtk.FILL, gtk.FILL, 5)
++
+         self.vbox.pack_start(table, False)
+ 
+         label = gtk.Label(_("If you need to use network authentication, such as Kerberos or NIS, "
+diff -urN firstboot-18.4.orig/modules/eula.py firstboot-18.4/modules/eula.py
+--- firstboot-18.4.orig/modules/eula.py	2012-10-17 14:24:37.624920600 +0400
++++ firstboot-18.4/modules/eula.py	2012-10-17 14:25:23.769047770 +0400
+@@ -42,7 +42,7 @@
+     def createScreen(self):
+         self.vbox = gtk.VBox(spacing=10)
+ 
+-        label = gtk.Label(_("""Thank you for installing Fedora.  Fedora is a \
++        label = gtk.Label(_("""Thank you for installing RFRemix.  RFRemix is a \
+ compilation of software packages, each under its own license.  The \
+ compilation is made available under the GNU General Public License version \
+ 2.  There are no restrictions on using, copying, or modifying this code.  \
+@@ -51,7 +51,7 @@
+ Among other things, those restrictions/obligations pertain to the \
+ licensing of the redistribution, trademark rights, and export control.\n\n\
+ If you would like to understand what those restrictions are, please \
+-visit http://fedoraproject.org/wiki/Legal/Licenses/LicenseAgreement."""))
++visit http://russianfedora.ru/eula."""))
+         label.set_line_wrap(True)
+         label.set_alignment(0.0, 0.0)
+         label.set_size_request(500, -1)
+diff -urN firstboot-18.4.orig/modules/rfremix.py firstboot-18.4/modules/rfremix.py
+--- firstboot-18.4.orig/modules/rfremix.py	1970-01-01 03:00:00.000000000 +0300
++++ firstboot-18.4/modules/rfremix.py	2012-10-17 14:25:23.770047773 +0400
+@@ -0,0 +1,261 @@
++# -*- coding: utf-8 -*-
++#
++# This copyrighted material is made available to anyone wishing to use, modify,
++# copy, or redistribute it subject to the terms and conditions of the GNU
++# General Public License v.2.  This program is distributed in the hope that it
++# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
++# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# Authors: Russian Fedora Team. http://russianfedora.ru
++#
++# This is a good example of impossible programing on python
++
++import gtk
++
++from firstboot.config import *
++from firstboot.constants import *
++from firstboot.functions import *
++from firstboot.module import *
++
++import gettext
++_ = lambda x: gettext.ldgettext("firstboot", x)
++N_ = lambda x: x
++
++class moduleClass(Module):
++    def __init__(self):
++        Module.__init__(self)
++        self.priority = 101
++        self.sidebarTitle = N_("RFRemix configure")
++        self.title = N_("RFRemix configure")
++        self.icon = "workstation.png"
++
++    def apply(self, interface, testing=False):
++        print '======================================='
++        for key, val in self.ACTIONS_MAP.iteritems():
++            print "%s -> %s" % (key, val)
++        print '======================================='
++        if self.ch2.get_property('sensitive') and self.ch2.state == 1:
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.desktop.interface.gschema.override << FOE\n"
++                      "[org.gnome.desktop.interface]\n"
++                      "menus-have-icons=true\n"
++                      "FOE")
++            os.system('glib-compile-schemas /usr/share/glib-2.0/schemas')
++        if self.ch3.get_property('sensitive') and self.ch3.state == 1:
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.desktop.interface.gschema.override << FOE\n"
++                      "[org.gnome.desktop.interface]\n"
++                      "buttons-have-icons=true\n"
++                      "FOE")
++            os.system('glib-compile-schemas /usr/share/glib-2.0/schemas')
++        if self.ch5.get_property('sensitive') and self.ch5.state == 1:
++            os.system('/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false')
++        if self.ch6.get_property('sensitive') and self.ch6.state == 1:
++            os.system("cat >> /usr/share/glib-2.0/schemas/org.gnome.gedit.gschema.override << FOE\n"
++                      "[org.gnome.gedit.preferences.encodings]\n"
++                      "auto-detected=['UTF-8', 'CURRENT', 'WINDOWS-1251', 'KOI8R', 'ISO-8859-5']\n"
++                      "FOE")
++        if self.ch15.get_property('sensitive') and self.ch15.state == 1:
++            os.system('sed -i "s!UseNetworkManager=true!UseNetworkManager=false!g" /etc/PackageKit/PackageKit.conf; sed -i "s!UseNetworkHeuristic=true!UseNetworkHeuristic=false!g" /etc/PackageKit/PackageKit.conf')
++
++# debug info
++#        print '======================================='
++#        for key, val in self.ACTIONS_MAP.iteritems():
++#            print "%s -> %s" % (key, val)
++#        print '======================================='
++        
++        if 'kdm_gdm' in self.ACTIONS_MAP:
++            if self.ACTIONS_MAP['kdm_gdm'] == 'gdm':
++                os.system(r"""echo "DISPLAYMANAGER=\"GNOME\"" > /etc/sysconfig/desktop""")
++            else:
++                os.system(r"""echo "DISPLAYMANAGER=\"KDE\"" > /etc/sysconfig/desktop""")
++        
++        if 'sudo_users' in self.ACTIONS_MAP:
++            for user in self.ACTIONS_MAP['sudo_users']:
++                os.system("cat >> /etc/sudoers.d/%(username)s << FOE\n"
++                          "%(username)s ALL=(ALL) ALL\n"
++                          "FOE" % dict(username=user))
++                os.system("chmod 0440 /etc/sudoers.d/%(username)s" % dict(username=user))
++        
++        if 'autologin_user' in self.ACTIONS_MAP:
++            # let's say that there is a value for kdm_gdm
++            if 'kdm_gdm' in self.ACTIONS_MAP:
++                if self.ACTIONS_MAP['kdm_gdm'] == 'gdm':
++                    user = self.ACTIONS_MAP['autologin_user']
++                    os.system("cat >> /etc/gdm/custom.conf << FOE\n"
++                              "[daemon]\n"
++                              "AutomaticLoginEnable=true\n"
++                              "AutomaticLogin=%(username)s\n"
++                              "TimedLoginEnable=true\n"
++                              "TimedLogin=%(username)s\n"
++                              "TimedLoginDelay=10\n"
++                              "FOE" % dict(username=user))
++                elif self.ACTIONS_MAP['kdm_gdm'] == 'kdm':
++                    user = self.ACTIONS_MAP['autologin_user']
++                    os.system(r"sed -i 's/#AutoLoginEnable=true/AutoLoginEnable=true/' /etc/kde/kdm/kdmrc")
++                    os.system(r"sed -i 's/#AutoLoginUser=fred/AutoLoginUser=%(username)s/' /etc/kde/kdm/kdmrc" % dict(username=user))
++        
++        #if 'c_m_backspace' in self.ACTIONS_MAP:
++        #    os.system("grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard")
++
++        #if 'disable_ipv6' in self.ACTIONS_MAP:
++        #    os.system("echo \"install ipv6 /bin/true blacklist ipv6\" > /etc/modprobe.d/blacklist-ipv6.conf")
++        #    os.system("/sbin/service ip6tables stop && /sbin/chkconfig ip6tables off")
++        #    os.system("grep 'NETWORKING_IPV6=no' /etc/sysconfig/network || echo \"NETWORKING_IPV6=no\" >> /etc/sysconfig/network")
++
++        #if 'permissive_selinux' in self.ACTIONS_MAP:
++        #    os.system("sed -i 's!SELINUX=enforcing!SELINUX=permissive!g' /etc/selinux/config; /usr/sbin/setenforce 0")
++
++        return RESULT_SUCCESS
++    
++    def callb_radio(self, widget, data=None):
++        if widget.get_active():
++            self.ACTIONS_MAP[data['key']] = data['val']
++
++    def callb_checkbox(self, widget, data=None):
++        if widget.get_active():
++            self.ACTIONS_MAP[data['key']] = data['val']
++        else:
++            if data['key'] in self.ACTIONS_MAP:
++                del self.ACTIONS_MAP[data['key']]
++    
++    def createScreen(self):
++        self.ACTIONS_MAP = {}
++        self.vbox = gtk.VBox()
++        
++        label = gtk.Label(_("Now you can enable some parameters, which are disabled in original "
++                            "Fedora, such as icons in menu, encoding autodetection and others. "
++                            "These are global parameter, they will be enabled for all users."))
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
++
++        self.vbox.pack_start(label, False, False, 10)
++        
++        notebook = gtk.Notebook()
++        
++        ## Here goes first tab of notebook
++        first_tab_vbox = gtk.VBox()
++        
++        label = gtk.Label(_("<b>GNOME Preferences</b>"))
++        label.set_use_markup(True)
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
++        
++        first_tab_vbox.pack_start(label, False, True, 10)
++
++        self.ch2 = gtk.CheckButton(label=_('Turn on icons in menus'))
++        first_tab_vbox.pack_start(self.ch2, False, True, 1)
++        self.ch3 = gtk.CheckButton(label=_('Turn on icons on buttons'))
++        first_tab_vbox.pack_start(self.ch3, False, True, 1)
++        self.ch5 = gtk.CheckButton(label=_('Disable menu accelerators in GNOME Terminal'))
++        first_tab_vbox.pack_start(self.ch5, False, True, 1)
++        self.ch6 = gtk.CheckButton(label=_('Autodetec windows-1251 encoding in Gedit'))
++        first_tab_vbox.pack_start(self.ch6, False, True, 1)
++
++        label = gtk.Label(_("<b>System Preferences</b>"))
++        label.set_use_markup(True)
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
++        
++        first_tab_vbox.pack_start(label, False, True, 10)
++
++        self.ch15 = gtk.CheckButton(label=_('Let PackageKit work without network'))
++        first_tab_vbox.pack_start(self.ch15, False, True, 1)
++
++        self.ch2.set_active(True)
++        self.ch5.set_active(True)
++        self.ch6.set_active(True)
++        self.ch15.set_active(True)
++        if not os.path.exists('/usr/bin/gnome-session'):
++            self.ch2.set_sensitive(False)
++            self.ch3.set_sensitive(False)
++        if not os.path.exists('/usr/bin/gnome-terminal'):
++            self.ch5.set_sensitive(False)
++        if not os.path.exists('/usr/bin/gedit'):
++            self.ch6.set_sensitive(False)
++        if not os.path.exists('/etc/PackageKit/PackageKit.conf'):
++            self.ch15.set_sensitive(False)
++
++        notebook.append_page(first_tab_vbox, gtk.Label(_("Desktop Preferences")))
++        
++        ## Here goes second tab of notebook
++        second_tab_vbox = gtk.VBox()
++        notebook.append_page(second_tab_vbox, gtk.Label(_("System Preferences")))
++        
++        label = gtk.Label(_("<b>Select login manager:</b>"))
++        label.set_use_markup(True)
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
++        second_tab_vbox.pack_start(label, False, True, 10)
++        
++        box = gtk.VBox()
++        self.wmanager_button = gtk.RadioButton(None, _("KDE Display Manager"))
++        self.wmanager_button.set_active(True)
++        if not os.path.exists('/usr/bin/kdm'):
++            self.wmanager_button.set_sensitive(False)
++        elif os.path.exists('/usr/bin/kdm') and not os.path.exists('/usr/sbin/gdm'):
++            self.wmanager_button.set_sensitive(False)
++        else:
++            self.ACTIONS_MAP['kdm_gdm'] = 'kdm'
++        
++        self.wmanager_button.connect("toggled", self.callb_radio, dict(key='kdm_gdm', val='kdm'))
++        
++        box.pack_start(self.wmanager_button)
++        self.wmanager_button = gtk.RadioButton(self.wmanager_button, _("GNOME Display Manager"))
++        self.wmanager_button.set_active(True)
++        if not os.path.exists('/usr/sbin/gdm'):
++            self.wmanager_button.set_sensitive(False)
++        elif os.path.exists('/usr/sbin/gdm') and not os.path.exists('/usr/bin/kdm'):
++            self.wmanager_button.set_sensitive(False)
++        else:
++            self.ACTIONS_MAP['kdm_gdm'] = 'gdm'
++        
++        self.wmanager_button.connect("toggled", self.callb_radio, dict(key='kdm_gdm', val='gdm'))
++        
++        box.pack_start(self.wmanager_button)
++        
++        second_tab_vbox.pack_start(box, False, True, 0)    
++
++        label = gtk.Label(_("<b>Advanced system settings</b>"))
++        label.set_use_markup(True)
++        label.set_line_wrap(True)
++        label.set_alignment(0.0, 0.5)
++        label.set_size_request(500, -1)
++        label.set_alignment(0.0, 0.5)
++        second_tab_vbox.pack_start(label, False, True, 10)
++
++        #
++        # C-M-Backspace option
++        #
++        #box = gtk.VBox()
++        #c_m_checkbox = gtk.CheckButton(label=_('Enable Ctrl+Alt+Backspace combination to restart X-server'))
++        #c_m_checkbox.connect("toggled", self.callb_checkbox, dict(key='c_m_backspace', val=True))
++        #box.pack_start(c_m_checkbox, False, True, 0)
++        #second_tab_vbox.pack_start(box, False, True, 0)
++
++        ##
++        ## IPv6 settings
++        ##
++        #box = gtk.VBox()
++        #ipv6_checkbox = gtk.CheckButton(label=_("Disable IPv6 support"))
++        #ipv6_checkbox.connect("toggled", self.callb_checkbox, dict(key="disable_ipv6", val=True))
++        #box.pack_start(ipv6_checkbox, False, True, 0)
++        #second_tab_vbox.pack_start(box, False, True, 0)
++
++        #
++        # SELinux switcher
++        #
++        #box = gtk.VBox()
++        #selinux_checkbox = gtk.CheckButton(label=_("Switch SELinux to Permissive"))
++        #selinux_checkbox.connect("toggled", self.callb_checkbox, dict(key="permissive_selinux", val=True))
++        #box.pack_start(selinux_checkbox, False, True, 0)
++        #second_tab_vbox.pack_start(box, False, True, 0)
++        
++        self.vbox.pack_start(notebook)
++        
++    def initializeUI(self):
++        pass
++
