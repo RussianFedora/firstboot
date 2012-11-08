@@ -3,14 +3,14 @@
 Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
-Version: 18.5
+Version: 18.6
 Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.gz
 
-Patch0: firstboot-18.4-rfremix.patch
+Patch0: firstboot-18.6-rfremix.patch
 Patch1: firstboot-17.1-rfremix-po.patch
 
 License: GPLv2+
@@ -106,6 +106,11 @@ fi
 
 
 %changelog
+* Thu Nov  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.R
+- update to 18.6
+- drop terminate option
+- fix gedit encodings
+
 * Sun Oct 28 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.5-1.R
 - update to 18.5
 
