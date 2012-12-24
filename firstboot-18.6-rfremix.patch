@@ -301,13 +301,13 @@ diff -urN firstboot-18.4.orig/modules/rfremix.py firstboot-18.4/modules/rfremix.
 +        
 +        second_tab_vbox.pack_start(box, False, True, 0)    
 +
-+        label = gtk.Label(_("<b>Advanced system settings</b>"))
-+        label.set_use_markup(True)
-+        label.set_line_wrap(True)
-+        label.set_alignment(0.0, 0.5)
-+        label.set_size_request(500, -1)
-+        label.set_alignment(0.0, 0.5)
-+        second_tab_vbox.pack_start(label, False, True, 10)
++        #label = gtk.Label(_("<b>Advanced system settings</b>"))
++        #label.set_use_markup(True)
++        #label.set_line_wrap(True)
++        #label.set_alignment(0.0, 0.5)
++        #label.set_size_request(500, -1)
++        #label.set_alignment(0.0, 0.5)
++        #second_tab_vbox.pack_start(label, False, True, 10)
 +
 +        #
 +        # C-M-Backspace option
