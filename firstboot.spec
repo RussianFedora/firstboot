@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 18.6
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Sun Dec 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.2.R
+- added reindex yum metadata option
+
 * Mon Dec 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.1.R
 - drop Advanced Settings item
 
