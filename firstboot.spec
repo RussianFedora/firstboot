@@ -4,14 +4,14 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 18.6
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
 Source0: %{name}-%{version}.tar.gz
 
 Patch0: firstboot-18.6-rfremix.patch
-Patch1: firstboot-17.1-rfremix-po.patch
+Patch1: firstboot-18.6-rfremix-po.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -106,6 +106,10 @@ fi
 
 
 %changelog
+* Mon Dec 31 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.3.R
+- apply new po patch
+- fix yum cron file generation
+
 * Sun Dec 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.2.R
 - added reindex yum metadata option
 
