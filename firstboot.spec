@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 18.6
-Release: 1.3%{?dist}
+Release: 2%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -12,6 +12,9 @@ Source0: %{name}-%{version}.tar.gz
 
 Patch0: firstboot-18.6-rfremix.patch
 Patch1: firstboot-18.6-rfremix-po.patch
+
+# Don't try to read and apply keyboard config
+Patch9: firstboot-18.6-kbd.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -45,6 +48,7 @@ a series of steps that allows for easier configuration of the machine.
 %setup -q
 %patch0 -p1 -b .rfremix
 %patch1 -p1 -b .rfremix-po
+%patch9 -p1
 
 %build
 
@@ -106,6 +110,9 @@ fi
 
 
 %changelog
+* Thu Jan 10 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-2.R
+- kbd.patch: don't try and read and apply keyboard config (#892097)
+
 * Mon Dec 31 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-1.3.R
 - apply new po patch
 - fix yum cron file generation
