@@ -4,7 +4,7 @@ Summary: Initial system configuration utility
 Name: firstboot
 URL: http://fedoraproject.org/wiki/FirstBoot
 Version: 18.6
-Release: 2%{?dist}
+Release: 2.1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -110,6 +110,9 @@ fi
 
 
 %changelog
+* Wed Jan 16 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-2.1.R
+- disable display manager selector as it does not work proper now
+
 * Thu Jan 10 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.6-2.R
 - kbd.patch: don't try and read and apply keyboard config (#892097)
 
