@@ -13,9 +13,6 @@ Source0: %{name}-%{version}.tar.gz
 Patch0: firstboot-18.6-rfremix.patch
 Patch1: firstboot-18.6-rfremix-po.patch
 
-# Don't try to read and apply keyboard config
-Patch9: firstboot-18.6-kbd.patch
-
 License: GPLv2+
 Group: System Environment/Base
 ExclusiveOS: Linux
@@ -48,7 +45,6 @@ a series of steps that allows for easier configuration of the machine.
 %setup -q
 %patch0 -p1 -b .rfremix
 %patch1 -p1 -b .rfremix-po
-%patch9 -p1
 
 %build
 
